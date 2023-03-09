@@ -5,7 +5,7 @@ import co.com.sofka.model.paciente.Paciente;
 import co.com.sofka.model.paciente.generic.DomainEvent;
 import co.com.sofka.model.paciente.values.*;
 import co.com.sofka.usecase.generic.UseCaseForCommand;
-import co.com.sofka.usecase.generic.commands.AgendarCitaCommand;
+import co.com.sofka.usecase.generic.commands.cita.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;

@@ -1,4 +1,4 @@
-package co.com.sofka.usecase.generic.commands;
+package co.com.sofka.usecase.generic.commands.cita;
 
 import co.com.sofka.usecase.generic.Command;
 

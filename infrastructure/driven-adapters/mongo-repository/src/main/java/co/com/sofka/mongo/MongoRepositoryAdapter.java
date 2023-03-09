@@ -26,6 +26,7 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
         this.eventSerializer = eventSerializer;
     }
 
+
     @Override
     public Flux<DomainEvent> findById(String aggregateId) {
         var query = new Query(Criteria.where("aggregateRootId").is(aggregateId));
@@ -45,4 +46,14 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
                 .map(storeEvent -> storeEvent.deserializeEvent(eventSerializer));
 
     }
+
+    @Override
+    public Flux<DomainEvent> findByCitaId(String citaId) {
+        var query = new Query(Criteria.where("citaId").is(citaId));
+        return template.find(query, StoredEvent.class)
+                .sort(Comparator.comparing(event -> event.getOccurredOn()))
+                .map(storeEvent -> storeEvent.deserializeEvent(eventSerializer));
+    }
+
+
 }

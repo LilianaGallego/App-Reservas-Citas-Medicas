@@ -2,9 +2,13 @@ package co.com.sofka.api;
 
 import co.com.sofka.model.paciente.generic.DomainEvent;
 import co.com.sofka.usecase.agendarcita.AgendarCitaUseCase;
+import co.com.sofka.usecase.buscarcita.BuscarCitaUseCase;
 import co.com.sofka.usecase.crearpaciente.CrearPacienteUseCase;
-import co.com.sofka.usecase.generic.commands.AgendarCitaCommand;
+import co.com.sofka.usecase.crearrevison.CrearRevisonUseCase;
+import co.com.sofka.usecase.generic.commands.cita.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.commands.CrearPacienteCommand;
+import co.com.sofka.usecase.generic.commands.CrearRevisionCommand;
+import co.com.sofka.usecase.generic.commands.cita.BuscarCitaCommand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -12,8 +16,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
-import static org.springframework.web.reactive.function.server.RequestPredicates.POST;
-import static org.springframework.web.reactive.function.server.RequestPredicates.accept;
+import static org.springframework.web.reactive.function.server.RequestPredicates.*;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
@@ -38,6 +41,31 @@ public class RestController {
                 request -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(useCase
                                 .apply(request.bodyToMono(AgendarCitaCommand.class)),
+                                DomainEvent.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> crearRevison(CrearRevisonUseCase useCase){
+
+        return route(
+                POST("/crear/revision").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase
+                                        .apply(request.bodyToMono(CrearRevisionCommand.class)),
+                                DomainEvent.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> buscarCita(BuscarCitaUseCase useCase){
+
+        return route(
+                GET("/buscarCita/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(
+                                        request.bodyToMono(BuscarCitaCommand.class)),
                                 DomainEvent.class))
         );
     }

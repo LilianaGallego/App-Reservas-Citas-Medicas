@@ -1,4 +1,4 @@
-package co.com.sofka.model.paciente.events;
+package co.com.sofka.model.paciente.events.paciente;
 
 import co.com.sofka.model.paciente.generic.DomainEvent;
 

@@ -1,9 +1,11 @@
 package co.com.sofka.model.paciente;
 
 import co.com.sofka.model.paciente.entities.Cita;
-import co.com.sofka.model.paciente.entities.HistoriaMedica;
-import co.com.sofka.model.paciente.events.CitaAgendada;
-import co.com.sofka.model.paciente.events.PacienteCreado;
+import co.com.sofka.model.paciente.entities.Revision;
+import co.com.sofka.model.paciente.events.cita.CitaAgendada;
+import co.com.sofka.model.paciente.events.cita.CitaEncontrada;
+import co.com.sofka.model.paciente.events.paciente.PacienteCreado;
+import co.com.sofka.model.paciente.events.revision.RevisionCreada;
 import co.com.sofka.model.paciente.generic.EventChange;
 import co.com.sofka.model.paciente.values.*;
 
@@ -19,6 +21,8 @@ public class PacienteChange extends EventChange {
             paciente.celular = new Celular(event.getCelular());
             paciente.correo = new Correo(event.getCorreo());
             paciente.citas = new ArrayList<>();
+            paciente.revisiones = new ArrayList<>();
+
 
 
         });
@@ -29,6 +33,18 @@ public class PacienteChange extends EventChange {
                     new Hora(event.getHora()),
                     new Estado(event.getEstado()));
             paciente.citas.add(cita);
+        });
+
+        apply((CitaEncontrada event)-> {
+            paciente.citas.contains(event);
+        });
+
+        apply((RevisionCreada event)-> {
+            Revision revision = new Revision(RevisionId.of(event.getId()),
+                    new Fecha(event.getFecha()),
+                    new Observacion(event.getObservacion())
+                    );
+            paciente.revisiones.add(revision);
         });
 
     }
