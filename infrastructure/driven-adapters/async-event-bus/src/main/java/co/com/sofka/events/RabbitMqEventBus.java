@@ -2,12 +2,9 @@ package co.com.sofka.events;
 
 
 import co.com.sofka.events.data.Notification;
-import co.com.sofka.model.paciente.Paciente;
 import co.com.sofka.model.paciente.generic.DomainEvent;
 import co.com.sofka.serializer.JSONMapper;
 import co.com.sofka.usecase.generic.gateways.EventBus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 

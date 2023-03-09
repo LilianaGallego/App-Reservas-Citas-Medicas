@@ -22,12 +22,12 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
 
     @Override
     public Flux<DomainEvent> apply(Mono<AgendarCitaCommand> agendarCitaCommandMono) {
-        return agendarCitaCommandMono.flatMapMany(command -> repository.findById(command.getCitaId())
+        return agendarCitaCommandMono.flatMapMany(command -> repository.findById(command.getPacienteId())
                 .collectList()
                 .flatMapIterable(events -> {
                     Paciente paciente = Paciente.from(PacienteId.of(command.getPacienteId()), events);
 
-                    paciente.AgendarCita(CitaId.of(command.getCitaId()),
+                    paciente.agendarCita(CitaId.of(command.getCitaId()),
                             new Fecha(command.getFecha()),
                             new Hora(command.getHora()),
                             new Estado(command.getEstado()));

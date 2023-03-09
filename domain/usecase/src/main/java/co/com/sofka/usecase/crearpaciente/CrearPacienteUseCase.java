@@ -10,6 +10,8 @@ import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+
 public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand> {
     private final DomainEventRepository repository;
     private final EventBus bus;

@@ -29,17 +29,6 @@ public class RabbitMQConfig {
         return BindingBuilder.bind(this.eventsQueue()).to(this.eventsExchange()).with(ROUTING_KEY);
     }
 
-    @Bean
-    public MessageConverter converter(){
-        return new Jackson2JsonMessageConverter();
-    }
-
-    @Bean
-    public AmqpTemplate amqpTemplate(ConnectionFactory connectionFactory){
-        RabbitTemplate rabbitTemplate=new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(converter());
-        return  rabbitTemplate;
-    }
 }
 
 

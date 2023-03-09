@@ -1,7 +1,10 @@
 package co.com.sofka.usecase.generic.commands;
 
 
+import co.com.sofka.model.paciente.entities.Cita;
 import co.com.sofka.usecase.generic.Command;
+
+import java.util.List;
 
 public class CrearPacienteCommand extends Command {
     private String pacienteId;
@@ -9,16 +12,23 @@ public class CrearPacienteCommand extends Command {
     private String apellidos;
     private String celular;
     private String correo;
+    private List<Cita> citas;
 
     public CrearPacienteCommand() {
     }
 
-    public CrearPacienteCommand(String pacienteId, String nombres, String apellidos, String celular, String correo) {
+
+    public CrearPacienteCommand(String pacienteId, String nombres, String apellidos, String celular, String correo, List<Cita> citas) {
         this.pacienteId = pacienteId;
         this.nombres = nombres;
         this.apellidos = apellidos;
         this.celular = celular;
         this.correo = correo;
+        this.citas = citas;
+    }
+
+    public List<Cita> getCitas() {
+        return citas;
     }
 
     public String getPacienteId() {

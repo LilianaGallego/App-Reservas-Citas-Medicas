@@ -1,12 +1,11 @@
 package co.com.sofka.model.paciente;
 
+import co.com.sofka.model.paciente.entities.Cita;
 import co.com.sofka.model.paciente.entities.HistoriaMedica;
+import co.com.sofka.model.paciente.events.CitaAgendada;
 import co.com.sofka.model.paciente.events.PacienteCreado;
 import co.com.sofka.model.paciente.generic.EventChange;
-import co.com.sofka.model.paciente.values.Apellidos;
-import co.com.sofka.model.paciente.values.Celular;
-import co.com.sofka.model.paciente.values.Correo;
-import co.com.sofka.model.paciente.values.Nombres;
+import co.com.sofka.model.paciente.values.*;
 
 import java.util.ArrayList;
 
@@ -19,20 +18,18 @@ public class PacienteChange extends EventChange {
             paciente.apellidos = new Apellidos(event.getApellidos());
             paciente.celular = new Celular(event.getCelular());
             paciente.correo = new Correo(event.getCorreo());
-            //paciente.historiaMedica = new
-            //paciente.revisiones = new ArrayList<>();
-
-            ///paciente.citas = new ArrayList<>();
+            paciente.citas = new ArrayList<>();
 
 
         });
 
-        /*apply((CommentAdded event)-> {
-            Comment comment = new Comment(CommentId.of(event.getId()),
-                    new Author(event.getAuthor()),
-                    new Content(event.getContent()));
-            post.comments.add(comment);
-        });*/
+        apply((CitaAgendada event)-> {
+            Cita cita = new Cita(CitaId.of(event.getId()),
+                    new Fecha(event.getFecha()),
+                    new Hora(event.getHora()),
+                    new Estado(event.getEstado()));
+            paciente.citas.add(cita);
+        });
 
     }
 }

@@ -10,6 +10,7 @@ import co.com.sofka.model.paciente.values.*;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 
 public class Paciente extends AggregateRoot<PacienteId> {
@@ -52,12 +53,16 @@ public class Paciente extends AggregateRoot<PacienteId> {
         return paciente;
     }
 
-    public void AgendarCita(CitaId citaId, Fecha fecha, Hora hora, Estado estado){
+    public void agendarCita(CitaId citaId, Fecha fecha, Hora hora, Estado estado){
         Objects.requireNonNull(citaId);
         Objects.requireNonNull(fecha);
         Objects.requireNonNull(hora);
         Objects.requireNonNull(estado);
-        appendChange( new CitaAgendada(fecha.value(), hora.value(), estado.value()  )).apply();
+        appendChange( new CitaAgendada(citaId.value(),fecha.value(), hora.value(), estado.value()  )).apply();
+    }
+
+    public List<Cita> getCitas(){
+        return citas;
     }
 
 
