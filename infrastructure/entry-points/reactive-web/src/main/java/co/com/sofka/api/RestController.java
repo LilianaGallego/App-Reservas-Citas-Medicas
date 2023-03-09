@@ -1,7 +1,9 @@
 package co.com.sofka.api;
 
 import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.usecase.agendarcita.AgendarCitaUseCase;
 import co.com.sofka.usecase.crearpaciente.CrearPacienteUseCase;
+import co.com.sofka.usecase.generic.commands.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.commands.CrearPacienteCommand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,16 +30,16 @@ public class RestController {
         );
     }
 
-   /* @Bean
-    public RouterFunction<ServerResponse> addComment(AddCommentUseCase useCase){
+   @Bean
+    public RouterFunction<ServerResponse> agendarCita(AgendarCitaUseCase useCase){
 
         return route(
-                POST("/add/comment").and(accept(MediaType.APPLICATION_JSON)),
+                POST("/agendar/cita").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(useCase
-                                .apply(request.bodyToMono(AddCommentCommand.class)),
+                                .apply(request.bodyToMono(AgendarCitaCommand.class)),
                                 DomainEvent.class))
         );
-    }*/
+    }
 
 }
