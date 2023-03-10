@@ -3,7 +3,6 @@ package co.com.sofka.model.paciente;
 import co.com.sofka.model.paciente.entities.Cita;
 import co.com.sofka.model.paciente.entities.Revision;
 import co.com.sofka.model.paciente.events.cita.CitaAgendada;
-import co.com.sofka.model.paciente.events.cita.CitaEncontrada;
 import co.com.sofka.model.paciente.events.paciente.PacienteCreado;
 import co.com.sofka.model.paciente.events.revision.RevisionCreada;
 import co.com.sofka.model.paciente.generic.EventChange;
@@ -35,15 +34,13 @@ public class PacienteChange extends EventChange {
             paciente.citas.add(cita);
         });
 
-        apply((CitaEncontrada event)-> {
-            paciente.citas.contains(event);
-        });
+
 
         apply((RevisionCreada event)-> {
             Revision revision = new Revision(RevisionId.of(event.getId()),
                     new Fecha(event.getFecha()),
                     new Observacion(event.getObservacion())
-                    );
+            );
             paciente.revisiones.add(revision);
         });
 

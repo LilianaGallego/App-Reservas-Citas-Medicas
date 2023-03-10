@@ -3,7 +3,6 @@ import co.com.sofka.model.paciente.entities.Cita;
 import co.com.sofka.model.paciente.entities.HistoriaMedica;
 import co.com.sofka.model.paciente.entities.Revision;
 import co.com.sofka.model.paciente.events.cita.CitaAgendada;
-import co.com.sofka.model.paciente.events.cita.CitaEncontrada;
 import co.com.sofka.model.paciente.events.paciente.PacienteCreado;
 import co.com.sofka.model.paciente.events.revision.RevisionCreada;
 import co.com.sofka.model.paciente.generic.AggregateRoot;
@@ -29,7 +28,7 @@ public class Paciente extends AggregateRoot<PacienteId> {
                     Apellidos apellidos,
                     Celular celular,
                     Correo correo
-                    ) {
+    ) {
         super(id);
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -41,7 +40,7 @@ public class Paciente extends AggregateRoot<PacienteId> {
                 apellidos.value(),
                 celular.value(),
                 correo.value()
-               )).apply();
+        )).apply();
     }
 
     private Paciente (PacienteId pacienteId){
@@ -72,12 +71,7 @@ public class Paciente extends AggregateRoot<PacienteId> {
         appendChange( new RevisionCreada(revisionId.value(),fecha.value(),observacion.value())).apply();
     }
 
-    public void buscarCita(CitaId citaId){
-        Objects.requireNonNull(citaId);
-        appendChange( new CitaEncontrada(citaId.value())).apply();
 
-
-    }
 
     protected Optional<Cita> findClientById(CitaId citaId) {
         return this.citas.stream().filter(cita -> cita.identity().equals(citaId)).findFirst();

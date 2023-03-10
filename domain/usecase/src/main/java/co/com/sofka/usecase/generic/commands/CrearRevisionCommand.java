@@ -1,5 +1,6 @@
 package co.com.sofka.usecase.generic.commands;
 
+import co.com.sofka.model.paciente.values.CitaId;
 import co.com.sofka.usecase.generic.Command;
 
 public class CrearRevisionCommand extends Command {
@@ -26,11 +27,15 @@ public class CrearRevisionCommand extends Command {
     }
 
     public void setPacienteId(String pacienteId) {
-        pacienteId = pacienteId;
+        this.pacienteId = pacienteId;
     }
 
     public String getCitaId() {
         return citaId;
+    }
+
+    public void setCitaId(String citaId) {
+        this.citaId = citaId;
     }
 
     public String getRevisionId() {
