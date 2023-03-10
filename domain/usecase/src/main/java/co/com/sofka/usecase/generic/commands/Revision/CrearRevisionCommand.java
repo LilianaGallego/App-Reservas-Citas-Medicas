@@ -1,4 +1,4 @@
-package co.com.sofka.usecase.generic.commands;
+package co.com.sofka.usecase.generic.commands.Revision;
 
 import co.com.sofka.model.paciente.values.CitaId;
 import co.com.sofka.usecase.generic.Command;

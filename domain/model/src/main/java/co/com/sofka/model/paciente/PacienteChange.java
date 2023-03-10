@@ -43,6 +43,5 @@ public class PacienteChange extends EventChange {
             );
             paciente.revisiones.add(revision);
         });
-
-    }
+        }
 }

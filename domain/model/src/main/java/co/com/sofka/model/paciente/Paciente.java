@@ -1,6 +1,5 @@
 package co.com.sofka.model.paciente;
 import co.com.sofka.model.paciente.entities.Cita;
-import co.com.sofka.model.paciente.entities.HistoriaMedica;
 import co.com.sofka.model.paciente.entities.Revision;
 import co.com.sofka.model.paciente.events.cita.CitaAgendada;
 import co.com.sofka.model.paciente.events.paciente.PacienteCreado;
@@ -19,7 +18,6 @@ public class Paciente extends AggregateRoot<PacienteId> {
     protected Apellidos apellidos;
     protected Celular celular;
     protected Correo correo;
-    protected HistoriaMedica historiaMedica;
     protected List<Revision> revisiones;
     protected List<Cita> citas;
 
@@ -72,8 +70,7 @@ public class Paciente extends AggregateRoot<PacienteId> {
     }
 
 
-
-    protected Optional<Cita> findClientById(CitaId citaId) {
+     public Optional<Cita> findClientById(CitaId citaId) {
         return this.citas.stream().filter(cita -> cita.identity().equals(citaId)).findFirst();
     }
 
@@ -83,6 +80,7 @@ public class Paciente extends AggregateRoot<PacienteId> {
     public List<Revision> getRevisiones(){
         return revisiones;
     }
+
 
 
 }

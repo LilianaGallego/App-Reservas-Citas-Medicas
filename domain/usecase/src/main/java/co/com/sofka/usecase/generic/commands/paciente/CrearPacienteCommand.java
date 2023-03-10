@@ -1,4 +1,4 @@
-package co.com.sofka.usecase.generic.commands;
+package co.com.sofka.usecase.generic.commands.paciente;
 
 
 import co.com.sofka.model.paciente.entities.Cita;

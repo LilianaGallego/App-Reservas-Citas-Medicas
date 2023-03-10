@@ -4,13 +4,11 @@ import co.com.sofka.model.paciente.Paciente;
 import co.com.sofka.model.paciente.generic.DomainEvent;
 import co.com.sofka.model.paciente.values.*;
 import co.com.sofka.usecase.generic.UseCaseForCommand;
-import co.com.sofka.usecase.generic.commands.CrearPacienteCommand;
+import co.com.sofka.usecase.generic.commands.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.util.ArrayList;
 
 public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand> {
     private final DomainEventRepository repository;

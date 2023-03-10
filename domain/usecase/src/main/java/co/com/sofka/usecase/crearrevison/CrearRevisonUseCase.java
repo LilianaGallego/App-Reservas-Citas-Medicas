@@ -1,11 +1,10 @@
 package co.com.sofka.usecase.crearrevison;
 
 import co.com.sofka.model.paciente.Paciente;
-import co.com.sofka.model.paciente.entities.Cita;
 import co.com.sofka.model.paciente.generic.DomainEvent;
 import co.com.sofka.model.paciente.values.*;
 import co.com.sofka.usecase.generic.UseCaseForCommand;
-import co.com.sofka.usecase.generic.commands.CrearRevisionCommand;
+import co.com.sofka.usecase.generic.commands.Revision.CrearRevisionCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;

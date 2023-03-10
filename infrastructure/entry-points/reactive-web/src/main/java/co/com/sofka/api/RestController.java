@@ -5,8 +5,8 @@ import co.com.sofka.usecase.agendarcita.AgendarCitaUseCase;
 import co.com.sofka.usecase.crearpaciente.CrearPacienteUseCase;
 import co.com.sofka.usecase.crearrevison.CrearRevisonUseCase;
 import co.com.sofka.usecase.generic.commands.cita.AgendarCitaCommand;
-import co.com.sofka.usecase.generic.commands.CrearPacienteCommand;
-import co.com.sofka.usecase.generic.commands.CrearRevisionCommand;
+import co.com.sofka.usecase.generic.commands.paciente.CrearPacienteCommand;
+import co.com.sofka.usecase.generic.commands.Revision.CrearRevisionCommand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -54,6 +54,7 @@ public class RestController {
                                 DomainEvent.class))
         );
     }
+
 
     /*@Bean
     public RouterFunction<ServerResponse> buscarCita(BuscarCitaUseCase useCase){
