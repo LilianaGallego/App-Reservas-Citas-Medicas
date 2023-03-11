@@ -15,10 +15,4 @@ public class Disponible implements ValueObject<String> {
         return disponible;
     }
 
-    @Override
-    public String toString() {
-        return "Disponible{" +
-                "disponible='" + disponible + '\'' +
-                '}';
-    }
 }

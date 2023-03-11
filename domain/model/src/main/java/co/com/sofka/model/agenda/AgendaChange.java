@@ -20,21 +20,20 @@ public class AgendaChange extends EventChange {
         });
 
         apply((DisponibilidadDefinida event)-> {
-            List<String> horas = new ArrayList<>();
-            String hora =  new Hora(event.getHora()).value();
-            String disponible = new Disponible(event.getDisponible()).value();
+            List<Hora> horas = new ArrayList<>();
+            //String hora =  new Hora(event.getHora()).value();
+            ///String disponible = new Disponible(event.getDisponible()).value();
+            Hora hora = new Hora(event.getHoras().toString());
             horas.add(hora);
-            horas.add(disponible);
 
-            Dia dia = new Dia(DiaId.of(event.getId()),
+            Dia dia = new Dia(DiaId.of(event.getDiaId()),
                     new Fecha(event.getFecha()),
                     new Nombre(event.getNombre()),
-                    new Hora(event.getHora()),
-                    new Disponible(event.getDisponible()),
-                    horas);
+                   horas);
 
 
             agenda.dias.add(dia);
+
         });
     }
 

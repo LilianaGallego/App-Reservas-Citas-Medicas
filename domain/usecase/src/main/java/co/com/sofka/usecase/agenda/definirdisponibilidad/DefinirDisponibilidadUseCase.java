@@ -12,6 +12,7 @@ import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDisponibilidadCommand> {
@@ -28,14 +29,12 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
         return definirDisponibilidadCommandMono.flatMapMany(command -> repository.findById(command.getAgendaId())
                 .collectList()
                 .flatMapIterable(events -> {
-                    System.out.println("Entra en el caso de uso");
                     AgendaSemanal agenda = AgendaSemanal.from(AgendaId.of(command.getAgendaId()), events);
 
                     agenda.definirDisponibilidad(DiaId.of(command.getDiaId()),
                             new Fecha(command.getFecha()),
                             new Nombre(command.getNombre()),
-                           new Hora(command.getHora()),
-                            new Disponible((command.getDisponible())));
+                            new ArrayList<Hora>());
 
 
                     return agenda.getUncommittedChanges();

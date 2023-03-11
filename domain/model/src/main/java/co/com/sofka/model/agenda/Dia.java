@@ -10,17 +10,14 @@ public class Dia extends Entity<DiaId> {
     private DiaId id;
     private Fecha fecha;
     private Nombre nombre;
-    private Hora hora;
-    private Disponible disponible;
-    private List<String> horas;
+    private List<Hora> horas;
 
 
-    public Dia(DiaId id, Fecha fecha, Nombre nombre, Hora hora, Disponible disponible, List<String> horas) {
+
+    public Dia(DiaId id, Fecha fecha, Nombre nombre,  List<Hora> horas) {
         super(id);
         this.fecha = fecha;
         this.nombre = nombre;
-        this.hora = hora;
-        this.disponible = disponible;
         this.horas = horas;
     }
 
@@ -32,13 +29,8 @@ public class Dia extends Entity<DiaId> {
         return nombre;
     }
 
-    public void setHoras(String hora, String disponible) {
-        this.horas.add(hora);
-        this.horas.add(disponible);
-    }
+    public List<Hora> horas(){ return horas;}
 
-    public List<String> horasDefinidas() {
-        return horas;
-    }
+
 }
 

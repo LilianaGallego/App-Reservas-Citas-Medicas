@@ -10,16 +10,9 @@ public class Hora implements ValueObject<String> {
         this.value = value;
     }
 
-
     @Override
     public String value(){
         return value;
     }
 
-    @Override
-    public String toString() {
-        return "Hora{" +
-                "value='" + value + '\'' +
-                '}';
-    }
 }

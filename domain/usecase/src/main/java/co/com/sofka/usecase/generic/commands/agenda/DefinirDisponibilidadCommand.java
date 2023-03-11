@@ -2,13 +2,14 @@ package co.com.sofka.usecase.generic.commands.agenda;
 
 import co.com.sofka.usecase.generic.Command;
 
+import java.util.List;
+
 public class DefinirDisponibilidadCommand extends Command {
     private String agendaId;
     private String diaId;
     private String fecha;
     private String nombre;
-    private String hora;
-    private String disponible;
+    private List<String> horas;
 
 
     public DefinirDisponibilidadCommand() {
@@ -19,15 +20,13 @@ public class DefinirDisponibilidadCommand extends Command {
             String diaId,
             String fecha,
             String nombre,
-            String hora,
-            String disponible)
+            List<String> horas)
     {
         this.agendaId = agendaId;
         this.diaId = diaId;
         this.fecha = fecha;
         this.nombre = nombre;
-        this.hora = hora;
-        this.disponible = disponible;
+        this.horas = horas;
 
     }
 
@@ -63,19 +62,11 @@ public class DefinirDisponibilidadCommand extends Command {
         this.nombre = nombre;
     }
 
-    public String getHora() {
-        return hora;
+    public List<String> getHoras() {
+        return horas;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-
-    public String getDisponible() {
-        return disponible;
-    }
-
-    public void setDisponible(String disponible) {
-        this.disponible = disponible;
+    public void setHoras(List<String> horas) {
+        this.horas = horas;
     }
 }

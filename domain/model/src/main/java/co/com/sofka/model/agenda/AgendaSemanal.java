@@ -6,6 +6,7 @@ import co.com.sofka.model.agenda.values.*;
 import co.com.sofka.model.generic.AggregateRoot;
 import co.com.sofka.model.generic.DomainEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -15,14 +16,15 @@ public class AgendaSemanal extends AggregateRoot<AgendaId> {
 
 
     public AgendaSemanal(AgendaId id,
-                  Semana semana
+                  Semana semana, DiaId diaId, Fecha fecha, Nombre nombre,  List<Hora> horas
     ) {
         super(id);
-        this.semana = semana;
+        //this.semana = semana;
         subscribe(new AgendaChange(this));
+        List<String> horasDia = new ArrayList<>();
+        horas.stream().map(x-> x).forEach(hora ->horasDia.add(hora.toString()) );
         appendChange(new AgendaCreada(
-                semana.value()
-        )).apply();
+                semana.value(), diaId.value(),fecha.value(),nombre.value(),horasDia)).apply();
     }
 
     private AgendaSemanal(AgendaId agendaId) {
@@ -37,13 +39,13 @@ public class AgendaSemanal extends AggregateRoot<AgendaId> {
     }
 
 
-    public void definirDisponibilidad(DiaId diaId, Fecha fecha, Nombre nombre, Hora hora, Disponible disponible) {
+    public void definirDisponibilidad(DiaId diaId, Fecha fecha, Nombre nombre, List<Hora> horas) {
         Objects.requireNonNull(diaId);
         Objects.requireNonNull(fecha);
         Objects.requireNonNull(nombre);
-        Objects.requireNonNull(hora);
-        Objects.requireNonNull(disponible);
-
-        appendChange(new DisponibilidadDefinida(diaId.value(), fecha.value(), nombre.value(), hora.value(), disponible.value())).apply();
+        Objects.requireNonNull(horas);
+        List<String> horasDia = new ArrayList<>();
+        horas.stream().map(x-> x).forEach(hora ->horasDia.add(hora.toString()) );
+        appendChange(new DisponibilidadDefinida(diaId.value(), fecha.value(), nombre.value(), horasDia)).apply();
     }
 }
