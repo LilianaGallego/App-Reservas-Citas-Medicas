@@ -2,7 +2,7 @@ package co.com.sofka.events;
 
 
 import co.com.sofka.events.data.Notification;
-import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.serializer.JSONMapper;
 import co.com.sofka.usecase.generic.gateways.EventBus;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

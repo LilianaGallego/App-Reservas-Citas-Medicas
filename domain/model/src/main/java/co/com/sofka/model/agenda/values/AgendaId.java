@@ -1,7 +1,7 @@
 package co.com.sofka.model.agenda.values;
 
 
-import co.com.sofka.model.agenda.generic.Identity;
+import co.com.sofka.model.generic.Identity;
 
 public class AgendaId extends Identity {
     private  AgendaId (String uuid){

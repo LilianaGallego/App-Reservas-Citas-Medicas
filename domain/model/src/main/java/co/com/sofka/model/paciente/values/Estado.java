@@ -1,6 +1,6 @@
 package co.com.sofka.model.paciente.values;
 
-import co.com.sofka.model.paciente.generic.ValueObject;
+import co.com.sofka.model.generic.ValueObject;
 
 
 public class Estado implements ValueObject<String> {

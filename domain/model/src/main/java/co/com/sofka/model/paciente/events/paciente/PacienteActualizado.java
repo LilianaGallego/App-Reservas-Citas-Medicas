@@ -1,6 +1,6 @@
 package co.com.sofka.model.paciente.events.paciente;
 
-import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.model.generic.DomainEvent;
 
 public class PacienteActualizado extends DomainEvent {
     private String nombres;

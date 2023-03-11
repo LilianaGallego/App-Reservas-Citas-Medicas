@@ -1,6 +1,5 @@
-package co.com.sofka.usecase.generic.commands.Revision;
+package co.com.sofka.usecase.generic.commands.paciente.Revision;
 
-import co.com.sofka.model.paciente.values.CitaId;
 import co.com.sofka.usecase.generic.Command;
 
 public class CrearRevisionCommand extends Command {

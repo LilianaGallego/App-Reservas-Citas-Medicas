@@ -5,7 +5,7 @@ import co.com.sofka.model.paciente.entities.Revision;
 import co.com.sofka.model.paciente.events.cita.CitaAgendada;
 import co.com.sofka.model.paciente.events.paciente.PacienteCreado;
 import co.com.sofka.model.paciente.events.revision.RevisionCreada;
-import co.com.sofka.model.paciente.generic.EventChange;
+import co.com.sofka.model.generic.EventChange;
 import co.com.sofka.model.paciente.values.*;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package co.com.sofka.model.agenda.generic;
+package co.com.sofka.model.generic;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package co.com.sofka.model.agenda.values;
 
 
-import co.com.sofka.model.agenda.generic.ValueObject;
+import co.com.sofka.model.generic.ValueObject;
 
 public class Disponible implements ValueObject<String> {
     private String disponible;
@@ -15,5 +15,10 @@ public class Disponible implements ValueObject<String> {
         return disponible;
     }
 
-
+    @Override
+    public String toString() {
+        return "Disponible{" +
+                "disponible='" + disponible + '\'' +
+                '}';
+    }
 }

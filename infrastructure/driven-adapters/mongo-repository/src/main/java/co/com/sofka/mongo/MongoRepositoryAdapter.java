@@ -1,6 +1,6 @@
 package co.com.sofka.mongo;
 
-import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;

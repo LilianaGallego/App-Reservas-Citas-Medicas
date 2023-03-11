@@ -1,11 +1,7 @@
 package co.com.sofka.model.paciente.entities;
 
-import co.com.sofka.model.paciente.Paciente;
-import co.com.sofka.model.paciente.generic.DomainEvent;
-import co.com.sofka.model.paciente.generic.Entity;
+import co.com.sofka.model.generic.Entity;
 import co.com.sofka.model.paciente.values.*;
-
-import java.util.List;
 
 public class Cita extends Entity<CitaId> {
     private Fecha fecha;

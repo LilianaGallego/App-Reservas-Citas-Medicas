@@ -1,6 +1,6 @@
 package co.com.sofka.model.agenda.values;
 
-import co.com.sofka.model.agenda.generic.ValueObject;
+import co.com.sofka.model.generic.ValueObject;
 
 
 public class Hora implements ValueObject<String> {
@@ -10,10 +10,16 @@ public class Hora implements ValueObject<String> {
         this.value = value;
     }
 
+
     @Override
     public String value(){
         return value;
     }
 
-
+    @Override
+    public String toString() {
+        return "Hora{" +
+                "value='" + value + '\'' +
+                '}';
+    }
 }

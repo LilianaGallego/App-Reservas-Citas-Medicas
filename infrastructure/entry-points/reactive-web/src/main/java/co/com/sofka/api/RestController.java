@@ -1,12 +1,16 @@
 package co.com.sofka.api;
 
-import co.com.sofka.model.paciente.generic.DomainEvent;
-import co.com.sofka.usecase.agendarcita.AgendarCitaUseCase;
-import co.com.sofka.usecase.crearpaciente.CrearPacienteUseCase;
-import co.com.sofka.usecase.crearrevison.CrearRevisonUseCase;
-import co.com.sofka.usecase.generic.commands.cita.AgendarCitaCommand;
-import co.com.sofka.usecase.generic.commands.paciente.CrearPacienteCommand;
-import co.com.sofka.usecase.generic.commands.Revision.CrearRevisionCommand;
+import co.com.sofka.model.generic.DomainEvent;
+import co.com.sofka.usecase.agenda.crearagenda.CrearAgendaUseCase;
+import co.com.sofka.usecase.agenda.definirdisponibilidad.DefinirDisponibilidadUseCase;
+import co.com.sofka.usecase.generic.commands.agenda.CrearAgendaCommand;
+import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
+import co.com.sofka.usecase.paciente.agendarcita.AgendarCitaUseCase;
+import co.com.sofka.usecase.paciente.crearpaciente.CrearPacienteUseCase;
+import co.com.sofka.usecase.paciente.crearrevison.CrearRevisonUseCase;
+import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
+import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
+import co.com.sofka.usecase.generic.commands.paciente.Revision.CrearRevisionCommand;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -51,6 +55,30 @@ public class RestController {
                 request -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(useCase
                                         .apply(request.bodyToMono(CrearRevisionCommand.class)),
+                                DomainEvent.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> crearAgenda(CrearAgendaUseCase useCase){
+
+        return route(
+                POST("/crear/agenda").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase
+                                        .apply(request.bodyToMono(CrearAgendaCommand.class)),
+                                DomainEvent.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> definirDisponibilidad(DefinirDisponibilidadUseCase useCase){
+
+        return route(
+                POST("/definir/disponibilidad").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok().contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase
+                                        .apply(request.bodyToMono(DefinirDisponibilidadCommand.class)),
                                 DomainEvent.class))
         );
     }

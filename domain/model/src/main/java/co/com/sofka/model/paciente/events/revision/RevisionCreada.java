@@ -1,6 +1,6 @@
 package co.com.sofka.model.paciente.events.revision;
 
-import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.model.generic.DomainEvent;
 
 public class RevisionCreada  extends DomainEvent {
     private String id;

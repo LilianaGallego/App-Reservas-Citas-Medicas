@@ -1,6 +1,6 @@
 package co.com.sofka.model.paciente.events.cita;
 
-import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.model.generic.DomainEvent;
 
 public class CitaAgendada extends DomainEvent {
 

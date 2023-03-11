@@ -1,6 +1,6 @@
 package co.com.sofka.model.paciente.values;
 
-import co.com.sofka.model.paciente.generic.Identity;
+import co.com.sofka.model.generic.Identity;
 
 public class PacienteId extends Identity {
     private  PacienteId (String uuid){

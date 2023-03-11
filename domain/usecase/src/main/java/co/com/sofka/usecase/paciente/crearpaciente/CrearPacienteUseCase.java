@@ -1,10 +1,10 @@
-package co.com.sofka.usecase.crearpaciente;
+package co.com.sofka.usecase.paciente.crearpaciente;
 
 import co.com.sofka.model.paciente.Paciente;
-import co.com.sofka.model.paciente.generic.DomainEvent;
+import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.model.paciente.values.*;
 import co.com.sofka.usecase.generic.UseCaseForCommand;
-import co.com.sofka.usecase.generic.commands.paciente.CrearPacienteCommand;
+import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;
