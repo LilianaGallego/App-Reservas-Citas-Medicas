@@ -1,6 +1,7 @@
 package co.com.sofka.usecase.agenda.definirdisponibilidad;
 
-import co.com.sofka.model.agenda.Agenda;
+
+import co.com.sofka.model.agenda.AgendaSemanal;
 import co.com.sofka.model.agenda.values.*;
 import co.com.sofka.model.agenda.values.Hora;
 import co.com.sofka.model.generic.DomainEvent;
@@ -27,15 +28,15 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
         return definirDisponibilidadCommandMono.flatMapMany(command -> repository.findById(command.getAgendaId())
                 .collectList()
                 .flatMapIterable(events -> {
-
-                    Agenda agenda = Agenda.from(AgendaId.of(command.getAgendaId()), events);
+                    System.out.println("Entra en el caso de uso");
+                    AgendaSemanal agenda = AgendaSemanal.from(AgendaId.of(command.getAgendaId()), events);
 
                     agenda.definirDisponibilidad(DiaId.of(command.getDiaId()),
                             new Fecha(command.getFecha()),
                             new Nombre(command.getNombre()),
                            new Hora(command.getHora()),
                             new Disponible((command.getDisponible())));
-                    System.out.println("Entra en el caso de uso");
+
 
                     return agenda.getUncommittedChanges();
                 }).map(event -> {

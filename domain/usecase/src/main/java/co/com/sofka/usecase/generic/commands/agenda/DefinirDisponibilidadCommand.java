@@ -7,9 +7,9 @@ public class DefinirDisponibilidadCommand extends Command {
     private String diaId;
     private String fecha;
     private String nombre;
-
     private String hora;
     private String disponible;
+
 
     public DefinirDisponibilidadCommand() {
     }
@@ -28,6 +28,7 @@ public class DefinirDisponibilidadCommand extends Command {
         this.nombre = nombre;
         this.hora = hora;
         this.disponible = disponible;
+
     }
 
     public String getAgendaId() {

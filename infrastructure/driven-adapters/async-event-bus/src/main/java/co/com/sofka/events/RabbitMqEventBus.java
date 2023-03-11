@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RabbitMqEventBus implements EventBus {
-    public static final String EXCHANGE = "core-posts-events";
+    public static final String EXCHANGE = "core-events";
     public static final String ROUTING_KEY = "events.routing.key";
     private final RabbitTemplate rabbitTemplate;
     private final JSONMapper serializer;

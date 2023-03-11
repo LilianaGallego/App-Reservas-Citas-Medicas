@@ -1,7 +1,6 @@
 package co.com.sofka.usecase.agenda.crearagenda;
 
-
-import co.com.sofka.model.agenda.Agenda;
+import co.com.sofka.model.agenda.AgendaSemanal;
 import co.com.sofka.model.agenda.values.AgendaId;
 import co.com.sofka.model.agenda.values.Semana;
 import co.com.sofka.model.generic.DomainEvent;
@@ -24,7 +23,7 @@ public class CrearAgendaUseCase extends UseCaseForCommand<CrearAgendaCommand> {
     @Override
     public Flux<DomainEvent> apply(Mono<CrearAgendaCommand> crearAgendaCommandMono) {
         return crearAgendaCommandMono.flatMapIterable(command -> {
-                    Agenda agenda = new Agenda(AgendaId.of(command.getAgendaId()),
+                    AgendaSemanal agenda = new AgendaSemanal(AgendaId.of(command.getAgendaId()),
                             new Semana(command.getSemana()));
                     return agenda.getUncommittedChanges();
                 })
