@@ -31,8 +31,7 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
                     .flatMapMany(domainEvents -> {
                         return repository.existById(command.getDiaId())
                                 .flatMapMany(exist -> {
-
-                                    if (exist) {
+                                    if (!exist) {
 
                                         AgendaSemanal agendaSemanal = AgendaSemanal.from(AgendaId.of(command.getAgendaId()), domainEvents);
                                         agendaSemanal.definirDisponibilidad(DiaId.of(command.getDiaId()),
@@ -52,7 +51,7 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
                                                 });
 
                                     } else {
-                                        return Mono.error(new RuntimeException("No existe el dia"));
+                                        return Mono.error(new RuntimeException("ya  existe el dia"));
                                     }
                                 });
                     });

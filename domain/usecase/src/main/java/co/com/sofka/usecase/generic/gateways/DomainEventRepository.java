@@ -8,10 +8,14 @@ import reactor.core.publisher.Mono;
 public interface DomainEventRepository {
     Flux<DomainEvent> findById(String aggregateId);
     Mono<DomainEvent> saveEvent(DomainEvent event);
-    Flux<DomainEvent> findByCitaId(String citaId);
+    Flux<DomainEvent> findByDiaId(String diaId);
     Mono<Boolean> existById(String diaId);
     Mono<Boolean> existByIdPaciente(String aggregateRootId);
     Mono<DomainEvent> save(DomainEvent event);
+    Mono<Boolean> existByHora(String hora);
+    Mono<Boolean> existByFecha(String fecha);
+
+
 
 
 

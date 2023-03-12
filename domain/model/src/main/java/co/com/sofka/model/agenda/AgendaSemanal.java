@@ -5,6 +5,7 @@ import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.model.agenda.values.*;
 import co.com.sofka.model.generic.AggregateRoot;
 import co.com.sofka.model.generic.DomainEvent;
+import co.com.sofka.model.paciente.entities.Cita;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Objects;
 public class AgendaSemanal extends AggregateRoot<AgendaId> {
     protected Semana semana;
     protected List<Dia> dias;
+    protected List<Cita> citas;
 
 
     public AgendaSemanal(AgendaId id,

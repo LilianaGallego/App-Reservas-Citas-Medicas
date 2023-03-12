@@ -13,6 +13,7 @@ import co.com.sofka.usecase.paciente.crearrevison.CrearRevisonUseCase;
 import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.commands.paciente.Revision.CrearRevisionCommand;
+import co.com.sofka.usecase.paciente.listarrevisiones.ListarRevisionesUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -85,15 +86,14 @@ public class RestController {
         );
     }
 
-    /*@Bean
-    public RouterFunction<ServerResponse> buscarHoraPorFecha(BuscarHoraDisponibleUseCase useCase){
+    @Bean
+    public RouterFunction<ServerResponse> buscarHistorial(ListarRevisionesUseCase useCase){
 
         return route(
-                GET("/buscarHora/{diaId}/{hora}").and(accept(MediaType.APPLICATION_JSON)),
+                GET("/buscarHistorial/{pacienteId}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(useCase.apply(BuscarHoraDisponibleCommand.class),request.pathVariable("diaId"),request.pathVariable("hora")),
-                                        ,
+                        .body(BodyInserters.fromPublisher(useCase.apply(request.pathVariable("pacienteId")),
                                 DomainEvent.class))
         );
     }
