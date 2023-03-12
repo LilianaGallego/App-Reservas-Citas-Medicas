@@ -21,8 +21,6 @@ public class AgendaChange extends EventChange {
 
         apply((DisponibilidadDefinida event)-> {
             List<Hora> horas = new ArrayList<>();
-            //String hora =  new Hora(event.getHora()).value();
-            ///String disponible = new Disponible(event.getDisponible()).value();
             Hora hora = new Hora(event.getHoras().toString());
             horas.add(hora);
 
@@ -30,8 +28,6 @@ public class AgendaChange extends EventChange {
                     new Fecha(event.getFecha()),
                     new Nombre(event.getNombre()),
                    horas);
-
-
             agenda.dias.add(dia);
 
         });

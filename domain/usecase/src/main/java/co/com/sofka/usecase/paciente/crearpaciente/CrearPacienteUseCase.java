@@ -21,20 +21,35 @@ public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand
 
     @Override
     public Flux<DomainEvent> apply(Mono<CrearPacienteCommand> crearPacienteCommandMono) {
-        return crearPacienteCommandMono.flatMapIterable(command -> {
-                    Paciente paciente = new Paciente(PacienteId.of(command.getPacienteId()),
-                            new Nombres(command.getNombres()),
-                            new Apellidos(command.getApellidos()),
-                            new Celular(command.getCelular()),
-                            new Correo(command.getCorreo()));
+        return crearPacienteCommandMono.flatMapMany(command ->
 
-                    return paciente.getUncommittedChanges();
-                }).flatMap(event -> {
-                    return repository.saveEvent(event);
-                })
-                .map(event -> {
-                    bus.publish(event);
-                    return event;
-                });
+                repository.existByIdPaciente(command.getPacienteId())
+
+
+                        .flatMapMany(aBoolean -> {
+                            System.out.println(aBoolean);
+                            if (!aBoolean) {
+                                Paciente paciente = new Paciente(PacienteId.of(command.getPacienteId()),
+                                        new Nombres(command.getNombres()),
+                                        new Apellidos(command.getApellidos()),
+                                        new Celular(command.getCelular()),
+                                        new Correo(command.getCorreo()));
+
+                                return Flux.fromIterable(paciente.getUncommittedChanges())
+                                        .flatMap(event -> {
+                                            return repository.saveEvent((DomainEvent) event);
+                                        }).flatMap(event -> {
+
+                                            return repository.save((DomainEvent) event);
+                                        })
+                                        .map(event -> {
+                                            bus.publish(event);
+                                            return event;
+                                        });
+                            } else {
+                                return Mono.error(new RuntimeException("El Paciente ya existe"));
+                            }
+                        })
+        );
     }
 }

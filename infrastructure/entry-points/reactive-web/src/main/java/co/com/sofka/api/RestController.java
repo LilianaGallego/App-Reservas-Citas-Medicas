@@ -1,8 +1,10 @@
 package co.com.sofka.api;
 
 import co.com.sofka.model.generic.DomainEvent;
+import co.com.sofka.usecase.agenda.buscarhoradisponible.BuscarHoraDisponibleUseCase;
 import co.com.sofka.usecase.agenda.crearagenda.CrearAgendaUseCase;
 import co.com.sofka.usecase.agenda.definirdisponibilidad.DefinirDisponibilidadUseCase;
+import co.com.sofka.usecase.generic.commands.agenda.BuscarHoraDisponibleCommand;
 import co.com.sofka.usecase.generic.commands.agenda.CrearAgendaCommand;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 import co.com.sofka.usecase.paciente.agendarcita.AgendarCitaUseCase;
@@ -83,6 +85,18 @@ public class RestController {
         );
     }
 
+    /*@Bean
+    public RouterFunction<ServerResponse> buscarHoraPorFecha(BuscarHoraDisponibleUseCase useCase){
+
+        return route(
+                GET("/buscarHora/{diaId}/{hora}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(BuscarHoraDisponibleCommand.class),request.pathVariable("diaId"),request.pathVariable("hora")),
+                                        ,
+                                DomainEvent.class))
+        );
+    }
 
     /*@Bean
     public RouterFunction<ServerResponse> buscarCita(BuscarCitaUseCase useCase){

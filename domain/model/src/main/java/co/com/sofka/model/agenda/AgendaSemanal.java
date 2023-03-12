@@ -39,7 +39,7 @@ public class AgendaSemanal extends AggregateRoot<AgendaId> {
     }
 
 
-    public void definirDisponibilidad(DiaId diaId, Fecha fecha, Nombre nombre, List<Hora> horas) {
+    public void definirDisponibilidad(DiaId diaId, Fecha fecha, Nombre nombre, List<String> horas) {
         Objects.requireNonNull(diaId);
         Objects.requireNonNull(fecha);
         Objects.requireNonNull(nombre);

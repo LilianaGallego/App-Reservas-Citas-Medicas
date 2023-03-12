@@ -3,7 +3,6 @@ package co.com.sofka.usecase.agenda.definirdisponibilidad;
 
 import co.com.sofka.model.agenda.AgendaSemanal;
 import co.com.sofka.model.agenda.values.*;
-import co.com.sofka.model.agenda.values.Hora;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.usecase.generic.UseCaseForCommand;;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
@@ -12,8 +11,8 @@ import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.Flushable;
+
 
 public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDisponibilidadCommand> {
     private final DomainEventRepository repository;
@@ -26,25 +25,38 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
 
     @Override
     public Flux<DomainEvent> apply(Mono<DefinirDisponibilidadCommand> definirDisponibilidadCommandMono) {
-        return definirDisponibilidadCommandMono.flatMapMany(command -> repository.findById(command.getAgendaId())
-                .collectList()
-                .flatMapIterable(events -> {
-                    AgendaSemanal agenda = AgendaSemanal.from(AgendaId.of(command.getAgendaId()), events);
+        return definirDisponibilidadCommandMono.flatMapMany(command -> {
+            return repository.findById(command.getAgendaId())
+                    .collectList()
+                    .flatMapMany(domainEvents -> {
+                        return repository.existById(command.getDiaId())
+                                .flatMapMany(exist -> {
 
-                    agenda.definirDisponibilidad(DiaId.of(command.getDiaId()),
-                            new Fecha(command.getFecha()),
-                            new Nombre(command.getNombre()),
-                            new ArrayList<Hora>());
+                                    if (exist) {
 
+                                        AgendaSemanal agendaSemanal = AgendaSemanal.from(AgendaId.of(command.getAgendaId()), domainEvents);
+                                        agendaSemanal.definirDisponibilidad(DiaId.of(command.getDiaId()),
+                                                new Fecha(command.getFecha()),
+                                                new Nombre(command.getNombre()),
+                                                command.getHoras());
+                                        return Flux.fromIterable(agendaSemanal.getUncommittedChanges())
 
-                    return agenda.getUncommittedChanges();
-                }).map(event -> {
-                    bus.publish(event);
-                    return event;
-                }).flatMap(event -> {
-                    return repository.saveEvent(event);
-                })
-        );
+                                                .map(event -> {
+                                                    bus.publish(event);
+                                                    return event;
+                                                }).flatMap(event -> {
+                                                    return repository.saveEvent(event);
+                                                }).flatMap(event -> {
 
+                                                    return repository.save((DomainEvent) event);
+                                                });
+
+                                    } else {
+                                        return Mono.error(new RuntimeException("No existe el dia"));
+                                    }
+                                });
+                    });
+
+        });
     }
 }

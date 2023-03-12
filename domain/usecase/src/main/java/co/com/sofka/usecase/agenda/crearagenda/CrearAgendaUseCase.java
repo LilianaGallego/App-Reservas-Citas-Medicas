@@ -38,7 +38,11 @@ public class CrearAgendaUseCase extends UseCaseForCommand<CrearAgendaCommand> {
                     bus.publish(event);
                     return event;
                 }).flatMap(event -> {
+
                     return repository.saveEvent(event);
+                }).flatMap(event -> {
+
+                    return repository.save((DomainEvent) event);
                 });
 
     }

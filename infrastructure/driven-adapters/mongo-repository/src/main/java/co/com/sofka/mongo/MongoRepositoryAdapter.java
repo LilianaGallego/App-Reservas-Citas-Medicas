@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Comparator;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Repository
 public class MongoRepositoryAdapter implements DomainEventRepository {
@@ -36,7 +37,21 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<DomainEvent> saveEvent(DomainEvent event){
+    public Mono<Boolean> existById(String diaId) {
+        var query = new Query(Criteria.where("diaId").is(diaId));
+        return template.exists(query, "Dia");
+
+    }
+
+    @Override
+    public Mono<Boolean> existByIdPaciente(String aggregateRootId) {
+        var query = new Query(Criteria.where("aggregateRootId").is(aggregateRootId));
+        return template.exists(query, StoredEvent.class);
+
+    }
+
+    @Override
+    public Mono<DomainEvent> saveEvent(DomainEvent event) {
         StoredEvent eventStored = new StoredEvent();
         eventStored.setAggregateRootId(event.aggregateRootId());
         eventStored.setTypeName(event.getClass().getTypeName());
@@ -48,14 +63,17 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
+    public Mono<DomainEvent> save(DomainEvent event) {
+        return template.save(event);
+    }
+
+    @Override
     public Flux<DomainEvent> findByCitaId(String citaId) {
         var query = new Query(Criteria.where("citaId").is(citaId));
         return template.find(query, StoredEvent.class)
                 .sort(Comparator.comparing(event -> event.getOccurredOn()))
                 .map(storeEvent -> storeEvent.deserializeEvent(eventSerializer));
     }
-
-
 
 
 }

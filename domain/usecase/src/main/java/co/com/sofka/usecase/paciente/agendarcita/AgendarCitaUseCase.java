@@ -37,6 +37,7 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                     bus.publish(event);
                     return event;
                 }).flatMap(event -> {
+                    repository.save(event);
                     return repository.saveEvent(event);
                 })
         );
