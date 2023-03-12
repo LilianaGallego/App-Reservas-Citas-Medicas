@@ -13,7 +13,7 @@ public class CrearRevisionCommand extends Command {
     public CrearRevisionCommand() {
     }
 
-    public CrearRevisionCommand(String pacienteId, String citaId, String revisionId,  String fecha, String observacion) {
+    public CrearRevisionCommand(String pacienteId, String revisionId,  String fecha, String observacion) {
         this.pacienteId = pacienteId;
         this.citaId = citaId;
         this.revisionId = revisionId;

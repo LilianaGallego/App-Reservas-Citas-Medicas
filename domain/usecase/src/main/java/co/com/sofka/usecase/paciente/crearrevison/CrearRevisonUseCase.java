@@ -39,6 +39,8 @@ public class CrearRevisonUseCase extends UseCaseForCommand<CrearRevisionCommand>
                     return event;
                 }).flatMap(event -> {
                     return repository.saveEvent(event);
+                }).flatMap(event -> {
+                    return repository.save(event);
                 })
         );
 
