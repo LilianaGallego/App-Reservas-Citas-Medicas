@@ -26,15 +26,15 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
     @Override
     public Flux<DomainEvent> apply(Mono<DefinirDisponibilidadCommand> definirDisponibilidadCommandMono) {
         return definirDisponibilidadCommandMono.flatMapMany(command -> {
-            return repository.findById(command.getAgendaId())
+            return repository.buscarPorId(command.getAgendaId())
                     .collectList()
                     .flatMapMany(domainEvents -> {
-                        return repository.existById(command.getDiaId())
+                        return repository.existeDiaId(command.getFecha())
                                 .flatMapMany(exist -> {
                                     if (!exist) {
 
                                         AgendaSemanal agendaSemanal = AgendaSemanal.from(AgendaId.of(command.getAgendaId()), domainEvents);
-                                        agendaSemanal.definirDisponibilidad(DiaId.of(command.getDiaId()),
+                                        agendaSemanal.definirDisponibilidad(DiaId.of(command.getFecha()),
                                                 new Fecha(command.getFecha()),
                                                 new Nombre(command.getNombre()),
                                                 command.getHoras());
@@ -44,14 +44,14 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
                                                     bus.publish(event);
                                                     return event;
                                                 }).flatMap(event -> {
-                                                    return repository.saveEvent(event);
+                                                    return repository.guardarEvento(event);
                                                 }).flatMap(event -> {
 
-                                                    return repository.save((DomainEvent) event);
+                                                    return repository.guardar((DomainEvent) event);
                                                 });
 
                                     } else {
-                                        return Mono.error(new RuntimeException("ya  existe el dia"));
+                                        return Mono.error(new RuntimeException("ya  existe el dia con la fecha: "+ command.getFecha()));
                                     }
                                 });
                     });

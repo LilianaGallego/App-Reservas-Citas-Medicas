@@ -6,14 +6,13 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface DomainEventRepository {
-    Flux<DomainEvent> findById(String aggregateId);
-    Mono<DomainEvent> saveEvent(DomainEvent event);
-    Flux<DomainEvent> findByDiaId(String diaId);
-    Mono<Boolean> existById(String diaId);
-    Mono<Boolean> existByIdPaciente(String aggregateRootId);
-    Mono<DomainEvent> save(DomainEvent event);
-    Mono<Boolean> existByHora(String hora);
-    Mono<Boolean> existByFecha(String fecha);
+    Flux<DomainEvent> buscarPorId(String aggregateId);
+    Mono<DomainEvent> guardarEvento(DomainEvent event);
+    Flux<DomainEvent> buscarPorDiaId(String diaId);
+    Mono<Boolean> existeDiaId(String diaId);
+    Mono<Boolean> existePorPacienteId(String aggregateRootId);
+    Mono<DomainEvent> guardar(DomainEvent event);
+    Mono<Boolean> existePorFecha(String fecha, String hora);
 
 
 

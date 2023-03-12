@@ -1,10 +1,8 @@
 package co.com.sofka.api;
 
 import co.com.sofka.model.generic.DomainEvent;
-import co.com.sofka.usecase.agenda.buscarhoradisponible.BuscarHoraDisponibleUseCase;
 import co.com.sofka.usecase.agenda.crearagenda.CrearAgendaUseCase;
 import co.com.sofka.usecase.agenda.definirdisponibilidad.DefinirDisponibilidadUseCase;
-import co.com.sofka.usecase.generic.commands.agenda.BuscarHoraDisponibleCommand;
 import co.com.sofka.usecase.generic.commands.agenda.CrearAgendaCommand;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 import co.com.sofka.usecase.paciente.agendarcita.AgendarCitaUseCase;

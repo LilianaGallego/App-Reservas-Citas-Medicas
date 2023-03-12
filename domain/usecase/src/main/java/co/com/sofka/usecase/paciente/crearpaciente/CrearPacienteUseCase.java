@@ -23,7 +23,7 @@ public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand
     public Flux<DomainEvent> apply(Mono<CrearPacienteCommand> crearPacienteCommandMono) {
         return crearPacienteCommandMono.flatMapMany(command ->
 
-                repository.existByIdPaciente(command.getPacienteId())
+                repository.existePorPacienteId(command.getPacienteId())
 
 
                         .flatMapMany(aBoolean -> {
@@ -37,10 +37,10 @@ public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand
 
                                 return Flux.fromIterable(paciente.getUncommittedChanges())
                                         .flatMap(event -> {
-                                            return repository.saveEvent((DomainEvent) event);
+                                            return repository.guardarEvento((DomainEvent) event);
                                         }).flatMap(event -> {
 
-                                            return repository.save((DomainEvent) event);
+                                            return repository.guardar((DomainEvent) event);
                                         })
                                         .map(event -> {
                                             bus.publish(event);

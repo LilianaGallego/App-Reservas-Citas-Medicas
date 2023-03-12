@@ -1,6 +1,7 @@
 package co.com.sofka.usecase.paciente.agendarcita;
 
 
+import co.com.sofka.model.agenda.AgendaSemanal;
 import co.com.sofka.model.paciente.Paciente;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.model.paciente.values.*;
@@ -23,47 +24,39 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
     @Override
     public Flux<DomainEvent> apply(Mono<AgendarCitaCommand> agendarCitaCommandMono) {
         return agendarCitaCommandMono.flatMapMany(command -> {
-            return repository.findById(command.getPacienteId())
+            return repository.buscarPorId(command.getPacienteId())
                     .collectList()
                     .flatMapMany(events -> {
 
-                        return repository.existByFecha(command.getFecha())
+                        return repository.existeDiaId(command.getFecha())
                                 .flatMapMany(exist -> {
+                                    System.out.println(exist);
+
                                     Paciente paciente = Paciente.from(PacienteId.of(command.getPacienteId()), events);
 
                                     if (exist) {
-                                        return repository.existByHora(command.getHora())
-                                                .flatMapMany(
-                                                        aBoolean -> {
-                                                            System.out.println(aBoolean);
-                                                            if (aBoolean) {
-                                                                paciente.agendarCita(CitaId.of(command.getCitaId()),
-                                                                        new Fecha(command.getFecha()),
-                                                                        new Hora(command.getHora()),
-                                                                        new Estado(command.getEstado()));
+                                        paciente.agendarCita(CitaId.of(command.getCitaId()),
+                                                new Fecha(command.getFecha()),
+                                                new Hora(command.getHora()),
+                                                new Estado(command.getEstado()));
 
-                                                                return Flux.fromIterable(paciente.getUncommittedChanges())
+                                        return Flux.fromIterable(paciente.getUncommittedChanges())
 
-                                                                        .map(event -> {
-                                                                            bus.publish(event);
-                                                                            return event;
-                                                                        }).flatMap(event -> {
-                                                                            return repository.saveEvent(event);
-                                                                        }).flatMap(event -> {
+                                                .map(event -> {
+                                                    bus.publish(event);
+                                                    return event;
+                                                }).flatMap(event -> {
+                                                    return repository.guardarEvento(event);
+                                                }).flatMap(event -> {
 
-                                                                            return repository.save((DomainEvent) event);
-                                                                        });
-                                                            } else {
-                                                                return Mono.error(new RuntimeException("No existe la hora en la fecha:  " + command.getHora()));
-                                                            }
-                                                        });
-
+                                                    return repository.guardar((DomainEvent) event);
+                                                });
                                     } else {
-                                        return Mono.error(new RuntimeException("No existe el dia"));
+                                        return Mono.error(new RuntimeException("No existe la hora en la fecha:  " + command.getHora()));
                                     }
-
-
                                 });
+
+
                     });
 
         });

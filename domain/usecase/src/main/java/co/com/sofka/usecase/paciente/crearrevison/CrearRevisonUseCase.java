@@ -23,7 +23,7 @@ public class CrearRevisonUseCase extends UseCaseForCommand<CrearRevisionCommand>
     @Override
     public Flux<DomainEvent> apply(Mono<CrearRevisionCommand> crearRevisionCommandMono) {
 
-        return crearRevisionCommandMono.flatMapMany(command -> repository.findById(command.getPacienteId())
+        return crearRevisionCommandMono.flatMapMany(command -> repository.buscarPorId(command.getPacienteId())
                 .collectList()
                 .flatMapIterable(events -> {
                     Paciente paciente = Paciente.from(PacienteId.of(command.getPacienteId()), events);
@@ -38,9 +38,9 @@ public class CrearRevisonUseCase extends UseCaseForCommand<CrearRevisionCommand>
                     bus.publish(event);
                     return event;
                 }).flatMap(event -> {
-                    return repository.saveEvent(event);
+                    return repository.guardarEvento(event);
                 }).flatMap(event -> {
-                    return repository.save(event);
+                    return repository.guardar(event);
                 })
         );
 

@@ -27,7 +27,7 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
 
 
     @Override
-    public Flux<DomainEvent> findById(String aggregateId) {
+    public Flux<DomainEvent> buscarPorId(String aggregateId) {
         var query = new Query(Criteria.where("aggregateRootId").is(aggregateId));
         return template.find(query, StoredEvent.class)
                 .sort(Comparator.comparing(event -> event.getOccurredOn()))
@@ -35,38 +35,29 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<Boolean> existById(String diaId) {
+    public Mono<Boolean> existeDiaId(String diaId) {
         var query = new Query(Criteria.where("diaId").is(diaId));
         return template.exists(query, DomainEvent.class, "disponibilidadDefinida");
 
     }
 
     @Override
-    public Mono<Boolean> existByFecha(String fecha) {
-        var query = new Query(Criteria.where("fecha").is(fecha));
-        System.out.println(query);
-        return template.exists(query, StoredEvent.class, "disponibilidadDefinida");
+    public Mono<Boolean> existePorFecha(String fecha, String hora) {
+        var query = new Query(Criteria.where("fecha").is(fecha).and("horas").regex(hora));
 
-    }
-
-    @Override
-    public Mono<Boolean> existByHora(String hora) {
-
-        var query = new Query(Criteria.where("horas").regex(hora));
         return template.exists(query, DomainEvent.class, "disponibilidadDefinida");
 
-
     }
 
     @Override
-    public Mono<Boolean> existByIdPaciente(String aggregateRootId) {
+    public Mono<Boolean> existePorPacienteId(String aggregateRootId) {
         var query = new Query(Criteria.where("aggregateRootId").is(aggregateRootId));
         return template.exists(query, StoredEvent.class);
 
     }
 
     @Override
-    public Mono<DomainEvent> saveEvent(DomainEvent event) {
+    public Mono<DomainEvent> guardarEvento(DomainEvent event) {
         StoredEvent eventStored = new StoredEvent();
         eventStored.setAggregateRootId(event.aggregateRootId());
         eventStored.setTypeName(event.getClass().getTypeName());
@@ -78,19 +69,16 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<DomainEvent> save(DomainEvent event) {
+    public Mono<DomainEvent> guardar(DomainEvent event) {
         return template.save(event);
     }
 
     @Override
-    public Flux<DomainEvent> findByDiaId(String diaId) {
-        var query = new Query(Criteria.where("eventBody.diaId").is(diaId));
-        System.out.println("mongorepo"+template.find(query, StoredEvent.class)
-                .sort(Comparator.comparing(event -> event.getOccurredOn()))
-                .map(storeEvent -> storeEvent.deserializeEvent(eventSerializer)));
-        return template.find(query, StoredEvent.class)
-                .sort(Comparator.comparing(event -> event.getOccurredOn()))
-                .map(storeEvent -> storeEvent.deserializeEvent(eventSerializer));
+    public Flux<DomainEvent> buscarPorDiaId(String diaId) {
+        var query = new Query(Criteria.where("diaId").is(diaId));
+        System.out.println(template.find(query, DomainEvent.class, "disponibilidadDefinida"));
+        return template.find(query, DomainEvent.class, "disponibilidadDefinida");
+
     }
 
 
