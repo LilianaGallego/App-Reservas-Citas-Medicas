@@ -16,7 +16,6 @@ public class ListarRevisionesUseCase {
 
 
     public Flux<DomainEvent> apply(String id) {
-        //System.out.println(repository.findById(id));
         return repository.buscarPorId(id);
 
     }

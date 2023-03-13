@@ -1,15 +1,11 @@
 package co.com.sofka.usecase.agenda.actualizardisponibilidad;
 
-import co.com.sofka.model.generic.DomainEvent;
-import co.com.sofka.usecase.generic.UseCaseForCommand;
-import co.com.sofka.usecase.generic.commands.agenda.ActualizarDisponibilidadHoraCommand;
-import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
+import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import co.com.sofka.usecase.generic.gateways.EventBus;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-public class ActualizarDisponibilidadUseCase extends UseCaseForCommand<ActualizarDisponibilidadHoraCommand> {
+public class ActualizarDisponibilidadUseCase  {
     private final DomainEventRepository repository;
     private final EventBus bus;
 
@@ -18,8 +14,8 @@ public class ActualizarDisponibilidadUseCase extends UseCaseForCommand<Actualiza
         this.bus = bus;
     }
 
-    @Override
-    public Flux<DomainEvent> apply(Mono<ActualizarDisponibilidadHoraCommand> actualizarDisponibilidadHoraCommandMono) {
-        return null;
+
+    public Mono<DisponibilidadDefinida> apply(String fecha, String hora) {
+        return repository.ActualizarHoraDisponible(fecha, hora);
     }
 }

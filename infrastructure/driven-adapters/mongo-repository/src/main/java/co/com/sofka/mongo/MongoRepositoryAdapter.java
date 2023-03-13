@@ -1,5 +1,6 @@
 package co.com.sofka.mongo;
 
+import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
@@ -7,6 +8,7 @@ import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -35,15 +37,20 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
+    public Mono<DisponibilidadDefinida> ActualizarHoraDisponible(javax.management.Query query) {
+        return null;
+    }
+
+
+    @Override
     public Mono<Boolean> existeDiaId(String diaId) {
         var query = new Query(Criteria.where("diaId").is(diaId));
         return template.exists(query, DomainEvent.class, "disponibilidadDefinida");
 
     }
 
-    @Override
     public Mono<Boolean> existePorFecha(String fecha, String hora) {
-        var query = new Query(Criteria.where("fecha").is(fecha).and("horas").regex(hora));
+        var query = new Query(Criteria.where("fecha").is(fecha).and("horas").is(hora));
 
         return template.exists(query, DomainEvent.class, "disponibilidadDefinida");
 
@@ -52,8 +59,24 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     @Override
     public Mono<Boolean> existePorPacienteId(String aggregateRootId) {
         var query = new Query(Criteria.where("aggregateRootId").is(aggregateRootId));
+
         return template.exists(query, StoredEvent.class);
 
+    }
+
+
+    public Mono<DisponibilidadDefinida> ActualizarHoraDisponible(String fecha, String hora){
+        Query query = new Query();
+        query.addCriteria(Criteria.where("fecha").is(fecha).and("horas").is(hora));
+        Update update = new Update();
+
+        update.set("hora.$", "NO DISPONIBLE ");
+        Mono<DisponibilidadDefinida> disponibilidad =
+                template.findAndModify(
+                        query,update,DisponibilidadDefinida.class,"disponibilidadDefinida")
+                        .map(disponibilidadDefinida -> {return disponibilidadDefinida;});
+
+       return disponibilidad;
     }
 
     @Override
