@@ -10,6 +10,33 @@ A continuación se da conocer el modelamiento que se tuvo en cuanta para realiza
 - Modelo Táctico
   ![tactico.png](img%2Ftactico.png)
 
+## Entrada de datos
+- Crear Agenda
+  ![crearAgenda.png](img%2FcrearAgenda.png)
+- Definir Disponibilidad horaria
+- ![definirDisponibilidad.png](img%2FdefinirDisponibilidad.png)
+- Crear Paciente
+  ![crearPaciente.png](img%2FcrearPaciente.png)
+- Agendar Cita
+  ![AgendarCita.png](img%2FAgendarCita.png)
+- Crear Revisión
+  ![crearRevision.png](img%2FcrearRevision.png)
+  
+
+## Salida de datos
+- Agenda creada
+  ![agendaCreada.png](img%2FagendaCreada.png)
+- Disponibilidad horaria definida
+  ![disponibilidadDefinida.png](img%2FdisponibilidadDefinida.png)
+- Paciente creado
+  ![pacienteCreado.png](img%2FpacienteCreado.png)
+- Cita Agendada
+  ![citaAgendada.png](img%2FcitaAgendada.png)
+- Revisión creada
+  ![revisionCreada.png](img%2FrevisionCreada.png)
+- Historial de revisiones  
+  ![historial1.png](img%2Fhistorial1.png)
+  ![historial2.png](img%2Fhistorial2.png)
 
 
 # Proyecto Base Implementando Clean Architecture
