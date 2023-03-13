@@ -1,6 +1,7 @@
 package co.com.sofka.model.agenda;
 
 import co.com.sofka.model.agenda.events.AgendaCreada;
+import co.com.sofka.model.agenda.events.DisponibilidadActualizada;
 import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.model.agenda.values.*;
 import co.com.sofka.model.generic.AggregateRoot;
@@ -49,5 +50,11 @@ public class AgendaSemanal extends AggregateRoot<AgendaId> {
         List<String> horasDia = new ArrayList<>();
         horas.stream().map(x-> x).forEach(hora ->horasDia.add(hora.toString()) );
         appendChange(new DisponibilidadDefinida(diaId.value(), fecha.value(), nombre.value(), horasDia)).apply();
+    }
+
+    public void actualizarDisponibilidad(String fecha, String hora) {
+        Objects.requireNonNull(fecha);
+        Objects.requireNonNull(hora);
+        appendChange(new DisponibilidadActualizada(fecha, hora)).apply();
     }
 }
