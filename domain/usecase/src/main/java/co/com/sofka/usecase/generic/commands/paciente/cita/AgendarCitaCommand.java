@@ -5,6 +5,7 @@ import co.com.sofka.usecase.generic.Command;
 public class AgendarCitaCommand extends Command {
 
     private String PacienteId;
+    private String agendaId;
     private String citaId;
     private String fecha;
     private String hora;
@@ -13,8 +14,9 @@ public class AgendarCitaCommand extends Command {
     public AgendarCitaCommand() {
     }
 
-    public AgendarCitaCommand(String pacienteId, String citaId, String fecha, String hora, String estado) {
+    public AgendarCitaCommand(String pacienteId, String agendaId,String citaId, String fecha, String hora, String estado) {
         PacienteId = pacienteId;
+        this.agendaId = agendaId;
         this.citaId = citaId;
         this.fecha = fecha;
         this.hora = hora;
@@ -27,6 +29,14 @@ public class AgendarCitaCommand extends Command {
 
     public void setPacienteId(String pacienteId) {
         PacienteId = pacienteId;
+    }
+
+    public String getAgendaId() {
+        return agendaId;
+    }
+
+    public void setAgendaId(String agendaId) {
+        this.agendaId = agendaId;
     }
 
     public String getCitaId() {

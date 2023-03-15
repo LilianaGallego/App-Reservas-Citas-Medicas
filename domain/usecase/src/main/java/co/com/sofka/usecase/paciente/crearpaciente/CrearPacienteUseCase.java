@@ -25,7 +25,6 @@ public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand
 
                 repository.existePorPacienteId(command.getPacienteId())
 
-
                         .flatMapMany(aBoolean -> {
                             System.out.println(aBoolean);
                             if (!aBoolean) {
@@ -38,9 +37,6 @@ public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand
                                 return Flux.fromIterable(paciente.getUncommittedChanges())
                                         .flatMap(event -> {
                                             return repository.guardarEvento((DomainEvent) event);
-                                        }).flatMap(event -> {
-
-                                            return repository.guardar((DomainEvent) event);
                                         })
                                         .map(event -> {
                                             bus.publish(event);

@@ -52,9 +52,9 @@ public class AgendaSemanal extends AggregateRoot<AgendaId> {
         appendChange(new DisponibilidadDefinida(diaId.value(), fecha.value(), nombre.value(), horasDia)).apply();
     }
 
-    public void actualizarDisponibilidad(String fecha, String hora) {
+    public void actualizarDisponibilidad(String fecha, List<String> horas) {
         Objects.requireNonNull(fecha);
-        Objects.requireNonNull(hora);
-        appendChange(new DisponibilidadActualizada(fecha, hora)).apply();
+        Objects.requireNonNull(horas);
+        appendChange(new DisponibilidadActualizada(fecha, horas)).apply();
     }
 }

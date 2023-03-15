@@ -1,6 +1,5 @@
 package co.com.sofka.mongo;
 
-import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
@@ -8,7 +7,6 @@ import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -36,11 +34,6 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
                 .map(storeEvent -> storeEvent.deserializeEvent(eventSerializer));
     }
 
-    @Override
-    public Mono<DisponibilidadDefinida> ActualizarHoraDisponible(javax.management.Query query) {
-        return null;
-    }
-
 
     @Override
     public Mono<Boolean> existeDiaId(String diaId) {
@@ -65,18 +58,12 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
 
-    public Mono<DisponibilidadDefinida> ActualizarHoraDisponible(String fecha, String hora){
+    public Mono<Boolean> ActualizarHoraDisponible(String fecha, String hora){
         Query query = new Query();
         query.addCriteria(Criteria.where("fecha").is(fecha).and("horas").is(hora));
-        Update update = new Update();
+        ;
 
-        update.set("hora.$", "NO DISPONIBLE ");
-        Mono<DisponibilidadDefinida> disponibilidad =
-                template.findAndModify(
-                        query,update,DisponibilidadDefinida.class,"disponibilidadDefinida")
-                        .map(disponibilidadDefinida -> {return disponibilidadDefinida;});
-
-       return disponibilidad;
+       return template.find(query, StoredEvent.class).hasElements();
     }
 
     @Override
