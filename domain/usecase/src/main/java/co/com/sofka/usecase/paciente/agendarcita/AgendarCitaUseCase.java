@@ -31,7 +31,7 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                     .collectList()
                     .flatMapMany(events -> {
 
-                        return repository.existeDiaId(command.getFecha())
+                        return repository.existePorFecha(command.getFecha(), command.getHora())
                                 .flatMapMany(exist -> {
                                     System.out.println(exist);
 
@@ -39,10 +39,11 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
 
                                     if (exist) {
                                         paciente.agendarCita(CitaId.of(command.getCitaId()),
-                                                new Fecha(command.getFecha()+ " "),
+                                                new Fecha(command.getFecha()),
                                                 new Hora(command.getHora()),
                                                 new Estado(command.getEstado()));
                                                //useCase.apply(command.getFecha(),command.getHora());
+
                                         return Flux.fromIterable(paciente.getUncommittedChanges())
 
                                                 .map(event -> {
