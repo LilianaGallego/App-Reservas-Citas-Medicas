@@ -42,7 +42,7 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                                                 new Fecha(command.getFecha()+ " "),
                                                 new Hora(command.getHora()),
                                                 new Estado(command.getEstado()));
-                                                useCase.apply(command.getFecha(),command.getHora());
+                                               //useCase.apply(command.getFecha(),command.getHora());
                                         return Flux.fromIterable(paciente.getUncommittedChanges())
 
                                                 .map(event -> {

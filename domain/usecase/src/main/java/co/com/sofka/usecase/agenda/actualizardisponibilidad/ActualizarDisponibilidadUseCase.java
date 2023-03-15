@@ -9,7 +9,7 @@ import co.com.sofka.usecase.generic.gateways.EventBus;
 import reactor.core.publisher.Mono;
 
 public class ActualizarDisponibilidadUseCase  {
-    private final DomainEventRepository repository;
+    /*private final DomainEventRepository repository;
     private final EventBus bus;
 
     public ActualizarDisponibilidadUseCase(DomainEventRepository repository, EventBus bus) {
@@ -36,5 +36,5 @@ public class ActualizarDisponibilidadUseCase  {
                 );
 
 
-    }
+    }*/
 }
