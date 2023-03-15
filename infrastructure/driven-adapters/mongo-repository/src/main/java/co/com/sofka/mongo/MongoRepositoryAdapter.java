@@ -4,6 +4,7 @@ import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
+import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -92,8 +93,8 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<DomainEvent> guardar(DomainEvent event) {
-        return template.save(event);
+    public Mono<DefinirDisponibilidadCommand> guardarDisponibilidad(DefinirDisponibilidadCommand command) {
+        return template.save(command);
     }
 
     @Override

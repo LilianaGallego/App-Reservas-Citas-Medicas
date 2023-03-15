@@ -51,9 +51,6 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                                                     return event;
                                                 }).flatMap(event -> {
                                                     return repository.guardarEvento(event);
-                                                }).flatMap(event -> {
-
-                                                    return repository.guardar( event);
                                                 });
                                     } else {
                                         return Mono.error(new RuntimeException("No existe la hora en la fecha:  " + command.getHora()));
