@@ -3,6 +3,8 @@ package co.com.sofka.api;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.usecase.agenda.crearagenda.CrearAgendaUseCase;
 import co.com.sofka.usecase.agenda.definirdisponibilidad.DefinirDisponibilidadUseCase;
+import co.com.sofka.usecase.agenda.listardisponibilidad.ListarDisponibilidadUseCase;
+import co.com.sofka.usecase.agenda.model.DisponibilidadModel;
 import co.com.sofka.usecase.generic.commands.agenda.CrearAgendaCommand;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 import co.com.sofka.usecase.paciente.agendarcita.AgendarCitaUseCase;
@@ -93,6 +95,18 @@ public class RestController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(useCase.apply(request.pathVariable("pacienteId")),
                                 DomainEvent.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> listarDisponibilidad(ListarDisponibilidadUseCase useCase){
+
+        return route(
+                GET("/listarDisponibilidad").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(),
+                                DisponibilidadModel.class))
         );
     }
 
