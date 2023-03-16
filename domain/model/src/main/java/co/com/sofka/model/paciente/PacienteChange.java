@@ -28,6 +28,7 @@ public class PacienteChange extends EventChange {
 
         apply((CitaAgendada event)-> {
             Cita cita = new Cita(CitaId.of(event.getId()),
+                    new Correo(event.getCorreo()),
                     new Fecha(event.getFecha()),
                     new Hora(event.getHora()),
                     new Estado(event.getEstado()));
