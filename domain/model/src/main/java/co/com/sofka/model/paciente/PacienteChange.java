@@ -22,12 +22,11 @@ public class PacienteChange extends EventChange {
             paciente.citas = new ArrayList<>();
             paciente.revisiones = new ArrayList<>();
 
-
-
         });
 
         apply((CitaAgendada event)-> {
             Cita cita = new Cita(CitaId.of(event.getId()),
+                    new Correo(event.getCorreo()),
                     new Fecha(event.getFecha()),
                     new Hora(event.getHora()),
                     new Estado(event.getEstado()));

@@ -7,6 +7,7 @@ public class AgendarCitaCommand extends Command {
     private String PacienteId;
     private String agendaId;
     private String citaId;
+    private String correoPaciente;
     private String fecha;
     private String hora;
     private String estado;
@@ -14,10 +15,11 @@ public class AgendarCitaCommand extends Command {
     public AgendarCitaCommand() {
     }
 
-    public AgendarCitaCommand(String pacienteId,String agendaId, String citaId, String fecha, String hora, String estado) {
+    public AgendarCitaCommand(String pacienteId,String agendaId, String citaId, String correoPaciente, String fecha, String hora, String estado) {
         PacienteId = pacienteId;
         this.agendaId = agendaId;
         this.citaId = citaId;
+        this.correoPaciente= correoPaciente;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
@@ -33,6 +35,14 @@ public class AgendarCitaCommand extends Command {
 
     public String getAgendaId() {
         return agendaId;
+    }
+
+    public String getCorreoPaciente() {
+        return correoPaciente;
+    }
+
+    public void setCorreoPaciente(String correoPaciente) {
+        this.correoPaciente = correoPaciente;
     }
 
     public void setAgendaId(String agendaId) {
