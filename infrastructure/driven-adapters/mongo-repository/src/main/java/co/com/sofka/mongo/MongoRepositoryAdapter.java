@@ -1,5 +1,6 @@
 package co.com.sofka.mongo;
 
+import co.com.sofka.usecase.agenda.model.DisponibilidadModel;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
@@ -41,14 +42,14 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     @Override
     public Mono<Boolean> existeDiaId(String diaId) {
         var query = new Query(Criteria.where("diaId").is(diaId));
-        return template.exists(query, DomainEvent.class, "definirDisponibilidadCommand");
+        return template.exists(query, DomainEvent.class, "disponibilidadModel");
 
     }
 
     public Mono<Boolean> existePorFecha(String fecha, String hora) {
         var query = new Query(Criteria.where("fecha").is(fecha).and("horas").is(hora));
 
-        return template.exists(query, DomainEvent.class, "definirDisponibilidadCommand");
+        return template.exists(query, DomainEvent.class, "disponibilidadModel");
 
     }
 
@@ -61,20 +62,20 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono <DefinirDisponibilidadCommand> ActualizarHoraDisponible(String hora, String fecha){
+    public Mono <DisponibilidadModel> ActualizarHoraDisponible(String hora, String fecha){
 
         var query = new Query(Criteria.where("fecha").is(fecha).and("horas").is(hora));
         Update update = new Update().set("horas.$","NO DISPONIBLE");
         System.out.println(update);
        return  template.findAndModify(
                query,update, FindAndModifyOptions.options().returnNew(true),
-               DefinirDisponibilidadCommand.class,  "definirDisponibilidadCommand");
+               DisponibilidadModel.class,  "disponibilidadModel");
 
+    }
 
-
-
-        //return  command = template.findAndModify(query, update1, DefinirDisponibilidadCommand.class,"DefinirDisponibilidadCommand");*/
-
+    @Override
+    public Flux<DisponibilidadModel> listarDisponibilidad() {
+        return template.findAll(DisponibilidadModel.class, "disponibilidadModel");
     }
 
     @Override
@@ -90,8 +91,9 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<DefinirDisponibilidadCommand> guardarDisponibilidad(DefinirDisponibilidadCommand command) {
-        return template.save(command);
+    public Mono<DisponibilidadModel> guardarDisponibilidad(DefinirDisponibilidadCommand command) {
+        DisponibilidadModel model = new DisponibilidadModel(command);
+        return template.save(model);
     }
 
     @Override

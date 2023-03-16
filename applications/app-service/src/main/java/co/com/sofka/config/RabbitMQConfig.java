@@ -16,6 +16,7 @@ public class RabbitMQConfig {
     public static final String EVENTS_QUEUE = "events.queue";
     public static final String ROUTING_KEY = "events.routing.key";
 
+
     @Bean
     public Queue eventsQueue(){
         return  new Queue(EVENTS_QUEUE);
