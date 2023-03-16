@@ -53,12 +53,13 @@ public class Paciente extends AggregateRoot<PacienteId> {
     }
 
 
-    public void agendarCita(CitaId citaId,  Fecha fecha, Hora hora, Estado estado){
+    public void agendarCita(CitaId citaId, Correo correoPaciente, Fecha fecha, Hora hora, Estado estado){
         Objects.requireNonNull(citaId);
+        Objects.requireNonNull(correoPaciente);
         Objects.requireNonNull(fecha);
         Objects.requireNonNull(hora);
         Objects.requireNonNull(estado);
-        appendChange( new CitaAgendada(citaId.value(), this.correo.value(), fecha.value(), hora.value(), estado.value()  )).apply();
+        appendChange( new CitaAgendada(citaId.value(), correoPaciente.value(), fecha.value(), hora.value(), estado.value()  )).apply();
     }
 
     public void crearRevision(RevisionId revisionId,  Fecha fecha, Observacion observacion){

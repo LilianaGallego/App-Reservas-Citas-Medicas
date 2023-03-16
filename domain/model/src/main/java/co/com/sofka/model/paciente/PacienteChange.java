@@ -22,8 +22,6 @@ public class PacienteChange extends EventChange {
             paciente.citas = new ArrayList<>();
             paciente.revisiones = new ArrayList<>();
 
-
-
         });
 
         apply((CitaAgendada event)-> {

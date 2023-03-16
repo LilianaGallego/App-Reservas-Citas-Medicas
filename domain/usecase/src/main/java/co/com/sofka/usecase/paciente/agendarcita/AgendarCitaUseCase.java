@@ -39,10 +39,13 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                                     Paciente paciente = Paciente.from(PacienteId.of(command.getPacienteId()), events);
 
                                     if (exist) {
+
                                         paciente.agendarCita(CitaId.of(command.getCitaId()),
+                                                new Correo(command.getCorreoPaciente()),
                                                 new Fecha(command.getFecha()),
                                                 new Hora(command.getHora()),
                                                 new Estado(command.getEstado()));
+                                        System.out.println(command.getCorreoPaciente());
                                         //useCase.apply(command.getFecha(),command.getHora());
                                         repository.buscarPorId(command.getAgendaId()).subscribe(
                                                 event2 -> {
