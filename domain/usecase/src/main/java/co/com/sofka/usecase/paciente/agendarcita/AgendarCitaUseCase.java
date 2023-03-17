@@ -47,6 +47,7 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                                                 new Estado(command.getEstado()));
                                         System.out.println(command.getCorreoPaciente());
                                         //useCase.apply(command.getFecha(),command.getHora());
+                                        repository.guardarCita(command).subscribe();
                                         repository.buscarPorId(command.getAgendaId()).subscribe(
                                                 event2 -> {
                                                     boolean disponibilidadDefinida = event2.type.equals("liliana.gallego.disponibilidaddefinida");

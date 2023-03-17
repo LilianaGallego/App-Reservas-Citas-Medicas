@@ -8,12 +8,14 @@ import co.com.sofka.usecase.agenda.model.DisponibilidadModel;
 import co.com.sofka.usecase.generic.commands.agenda.CrearAgendaCommand;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 import co.com.sofka.usecase.paciente.agendarcita.AgendarCitaUseCase;
+import co.com.sofka.usecase.paciente.cancelarcita.CancelarCitaUseCase;
 import co.com.sofka.usecase.paciente.crearpaciente.CrearPacienteUseCase;
 import co.com.sofka.usecase.paciente.crearrevison.CrearRevisonUseCase;
 import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.commands.paciente.Revision.CrearRevisionCommand;
 import co.com.sofka.usecase.paciente.listarrevisiones.ListarRevisionesUseCase;
+import co.com.sofka.usecase.paciente.model.CitaModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -107,6 +109,18 @@ public class RestController {
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(useCase.apply(),
                                 DisponibilidadModel.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> cancelarCita(CancelarCitaUseCase useCase){
+
+        return route(
+                DELETE("/cancelarCita/{citaId}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(request.pathVariable("citaId")),
+                                Void.class))
         );
     }
 
