@@ -34,13 +34,10 @@ public class CrearPacienteUseCase extends UseCaseForCommand<CrearPacienteCommand
                                         new Apellidos(command.getApellidos()),
                                         new Celular(command.getCelular()),
                                         new Correo(command.getCorreo()));
-
+                                repository.guardarPaciente(command).subscribe();
                                 return Flux.fromIterable(paciente.getUncommittedChanges())
                                         .flatMap(event -> {
                                             return repository.guardarEvento((DomainEvent) event);
-                                        }).flatMap(event -> {
-
-                                            return repository.guardar((DomainEvent) event);
                                         })
                                         .map(event -> {
                                             bus.publish(event);

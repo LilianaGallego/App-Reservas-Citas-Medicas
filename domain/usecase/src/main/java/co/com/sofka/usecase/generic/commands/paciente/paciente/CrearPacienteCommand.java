@@ -12,13 +12,12 @@ public class CrearPacienteCommand extends Command {
     private String apellidos;
     private String celular;
     private String correo;
-    private List<Cita> citas;
+    private List<String> citas;
 
     public CrearPacienteCommand() {
     }
 
-
-    public CrearPacienteCommand(String pacienteId, String nombres, String apellidos, String celular, String correo, List<Cita> citas) {
+    public CrearPacienteCommand(String pacienteId, String nombres, String apellidos, String celular, String correo, List<String> citas) {
         this.pacienteId = pacienteId;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -27,7 +26,7 @@ public class CrearPacienteCommand extends Command {
         this.citas = citas;
     }
 
-    public List<Cita> getCitas() {
+    public List<String> getCitas() {
         return citas;
     }
 

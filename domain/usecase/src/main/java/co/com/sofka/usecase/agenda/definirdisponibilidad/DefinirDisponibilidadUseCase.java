@@ -38,6 +38,7 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
                                                 new Fecha(command.getFecha()),
                                                 new Nombre(command.getNombre()),
                                                 command.getHoras());
+                                        repository.guardarDisponibilidad(command).subscribe();
                                         return Flux.fromIterable(agendaSemanal.getUncommittedChanges())
 
                                                 .map(event -> {
@@ -45,9 +46,6 @@ public class DefinirDisponibilidadUseCase extends UseCaseForCommand<DefinirDispo
                                                     return event;
                                                 }).flatMap(event -> {
                                                     return repository.guardarEvento(event);
-                                                }).flatMap(event -> {
-
-                                                    return repository.guardar((DomainEvent) event);
                                                 });
 
                                     } else {

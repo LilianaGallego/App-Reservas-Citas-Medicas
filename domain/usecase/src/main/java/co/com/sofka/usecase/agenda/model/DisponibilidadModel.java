@@ -1,32 +1,35 @@
-package co.com.sofka.usecase.generic.commands.agenda;
+package co.com.sofka.usecase.agenda.model;
 
-import co.com.sofka.usecase.generic.Command;
+import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
+import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 
 import java.util.List;
 
-public class DefinirDisponibilidadCommand extends Command {
+public class DisponibilidadModel {
+
     private String agendaId;
     private String diaId;
     private String fecha;
     private String nombre;
     private List<String> horas;
 
-    public DefinirDisponibilidadCommand() {
+    public DisponibilidadModel() {
     }
 
-    public DefinirDisponibilidadCommand(
-            String agendaId,
-            String diaId,
-            String fecha,
-            String nombre,
-            List<String> horas)
-    {
+    public DisponibilidadModel(DefinirDisponibilidadCommand comando) {
+        this.agendaId = comando.getAgendaId();
+        this.diaId = comando.getFecha();
+        this.fecha = comando.getFecha();
+        this.nombre = comando.getNombre();
+        this.horas = comando.getHoras();
+    }
+
+    public DisponibilidadModel(String agendaId, String diaId, String fecha, String nombre, List<String> horas) {
         this.agendaId = agendaId;
         this.diaId = diaId;
         this.fecha = fecha;
         this.nombre = nombre;
         this.horas = horas;
-
     }
 
     public String getAgendaId() {
@@ -68,6 +71,4 @@ public class DefinirDisponibilidadCommand extends Command {
     public void setHoras(List<String> horas) {
         this.horas = horas;
     }
-
-
 }

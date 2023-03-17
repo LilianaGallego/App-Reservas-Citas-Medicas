@@ -1,10 +1,17 @@
 package co.com.sofka.mongo;
 
-import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
+import co.com.sofka.usecase.agenda.model.DisponibilidadModel;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
+import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
+import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
+import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
+
+import co.com.sofka.usecase.paciente.model.CitaModel;
+import co.com.sofka.usecase.paciente.model.PacienteModel;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -37,23 +44,29 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<DisponibilidadDefinida> ActualizarHoraDisponible(javax.management.Query query) {
-        return null;
-    }
-
-
-    @Override
     public Mono<Boolean> existeDiaId(String diaId) {
         var query = new Query(Criteria.where("diaId").is(diaId));
-        return template.exists(query, DomainEvent.class, "disponibilidadDefinida");
+        return template.exists(query, DomainEvent.class, "disponibilidadModel");
 
     }
 
     public Mono<Boolean> existePorFecha(String fecha, String hora) {
         var query = new Query(Criteria.where("fecha").is(fecha).and("horas").is(hora));
 
-        return template.exists(query, DomainEvent.class, "disponibilidadDefinida");
+        return template.exists(query, DomainEvent.class, "disponibilidadModel");
 
+    }
+
+    public Mono<Boolean> existePorCitaId(String citaId) {
+        var query = new Query(Criteria.where("citaId").is(citaId));
+
+        return template.exists(query, CitaModel.class, "citaModel");
+
+    }
+
+    public  Mono<Void> eliminarCita(String citaId){
+        var query = new Query(Criteria.where("citaId").is(citaId));
+        return template.remove(query,CitaModel.class, "citaModel").then();
     }
 
     @Override
@@ -64,19 +77,46 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
 
     }
 
+    @Override
+    public Mono <DisponibilidadModel> ActualizarHoraDisponible(String hora, String fecha){
 
-    public Mono<DisponibilidadDefinida> ActualizarHoraDisponible(String fecha, String hora){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("fecha").is(fecha).and("horas").is(hora));
-        Update update = new Update();
+        var query = new Query(Criteria.where("fecha").is(fecha).and("horas").is(hora));
+        Update update = new Update().set("horas.$",hora+"-NO DISPONIBLE");
+        System.out.println(update);
+       return  template.findAndModify(
+               query,update, FindAndModifyOptions.options().returnNew(true),
+               DisponibilidadModel.class,  "disponibilidadModel");
 
-        update.set("hora.$", "NO DISPONIBLE ");
-        Mono<DisponibilidadDefinida> disponibilidad =
-                template.findAndModify(
-                        query,update,DisponibilidadDefinida.class,"disponibilidadDefinida")
-                        .map(disponibilidadDefinida -> {return disponibilidadDefinida;});
+    }
 
-       return disponibilidad;
+
+    public Mono<DomainEvent> actualizarCorreo(String pacienteId, String correo){
+
+        var query = new Query(Criteria.where("pacienteId").is(pacienteId));
+        Update update = new Update().set("correo",correo);
+        System.out.println(update);
+        return  template.findAndModify(
+                query,update, FindAndModifyOptions.options().returnNew(true),
+                DomainEvent.class);
+
+
+
+    }
+
+    @Override
+    public Mono <DisponibilidadModel> CambiarHoraADisponible(String hora, String fecha){
+        String h= hora+"-NO DISPONIBLE";
+        var query = new Query(Criteria.where("fecha").is(fecha).and("horas").is(h));
+        Update update = new Update().set("horas.$",hora);
+        System.out.println(update);
+        return  template.findAndModify(
+                query,update, FindAndModifyOptions.options().returnNew(true),
+                DisponibilidadModel.class,  "disponibilidadModel");
+    }
+
+    @Override
+    public Flux<DisponibilidadModel> listarDisponibilidad() {
+        return template.findAll(DisponibilidadModel.class, "disponibilidadModel");
     }
 
     @Override
@@ -92,15 +132,28 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     }
 
     @Override
-    public Mono<DomainEvent> guardar(DomainEvent event) {
-        return template.save(event);
+    public Mono<DisponibilidadModel> guardarDisponibilidad(DefinirDisponibilidadCommand command) {
+        DisponibilidadModel model = new DisponibilidadModel(command);
+        return template.save(model);
     }
 
     @Override
-    public Flux<DomainEvent> buscarPorDiaId(String diaId) {
-        var query = new Query(Criteria.where("diaId").is(diaId));
-        System.out.println(template.find(query, DomainEvent.class, "disponibilidadDefinida"));
-        return template.find(query, DomainEvent.class, "disponibilidadDefinida");
+    public Mono<CitaModel> guardarCita(AgendarCitaCommand command) {
+        CitaModel model = new CitaModel(command);
+        return template.save(model);
+    }
+
+    @Override
+    public Mono<PacienteModel> guardarPaciente(CrearPacienteCommand command){
+        PacienteModel model = new PacienteModel(command);
+        return template.save(model);
+    }
+
+    @Override
+    public Mono<CitaModel> buscarCitaporId(String citaId) {
+        var query = new Query(Criteria.where("citaId").is(citaId));
+
+        return template.findOne(query, CitaModel.class, "citaModel");
 
     }
 

@@ -1,8 +1,8 @@
-package co.com.sofka.usecase.generic.commands.paciente.cita;
+package co.com.sofka.usecase.paciente.model;
 
-import co.com.sofka.usecase.generic.Command;
+import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
 
-public class AgendarCitaCommand extends Command {
+public class CitaModel {
 
     private String PacienteId;
     private String agendaId;
@@ -12,14 +12,24 @@ public class AgendarCitaCommand extends Command {
     private String hora;
     private String estado;
 
-    public AgendarCitaCommand() {
+    public CitaModel() {
     }
 
-    public AgendarCitaCommand(String pacienteId,String agendaId, String citaId, String correoPaciente, String fecha, String hora, String estado) {
+    public CitaModel(AgendarCitaCommand command) {
+        PacienteId = command.getPacienteId();
+        this.agendaId = command.getAgendaId();
+        this.citaId = command.getCitaId();
+        this.correoPaciente = getCorreoPaciente();
+        this.fecha = command.getFecha();
+        this.hora = command.getHora();
+        this.estado = command.getEstado();
+    }
+
+    public CitaModel(String pacienteId, String agendaId, String citaId, String correoPaciente, String fecha, String hora, String estado) {
         PacienteId = pacienteId;
         this.agendaId = agendaId;
         this.citaId = citaId;
-        this.correoPaciente= correoPaciente;
+        this.correoPaciente = correoPaciente;
         this.fecha = fecha;
         this.hora = hora;
         this.estado = estado;
@@ -37,14 +47,6 @@ public class AgendarCitaCommand extends Command {
         return agendaId;
     }
 
-    public String getCorreoPaciente() {
-        return correoPaciente;
-    }
-
-    public void setCorreoPaciente(String correoPaciente) {
-        this.correoPaciente = correoPaciente;
-    }
-
     public void setAgendaId(String agendaId) {
         this.agendaId = agendaId;
     }
@@ -55,6 +57,14 @@ public class AgendarCitaCommand extends Command {
 
     public void setCitaId(String citaId) {
         this.citaId = citaId;
+    }
+
+    public String getCorreoPaciente() {
+        return correoPaciente;
+    }
+
+    public void setCorreoPaciente(String correoPaciente) {
+        this.correoPaciente = correoPaciente;
     }
 
     public String getFecha() {

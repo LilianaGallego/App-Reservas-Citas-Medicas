@@ -3,15 +3,21 @@ package co.com.sofka.api;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.usecase.agenda.crearagenda.CrearAgendaUseCase;
 import co.com.sofka.usecase.agenda.definirdisponibilidad.DefinirDisponibilidadUseCase;
+import co.com.sofka.usecase.agenda.listardisponibilidad.ListarDisponibilidadUseCase;
+import co.com.sofka.usecase.agenda.model.DisponibilidadModel;
 import co.com.sofka.usecase.generic.commands.agenda.CrearAgendaCommand;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
+import co.com.sofka.usecase.paciente.actualizarcorreopaciente.ActualizarCorreoPacienteUseCase;
 import co.com.sofka.usecase.paciente.agendarcita.AgendarCitaUseCase;
+import co.com.sofka.usecase.paciente.cancelarcita.CancelarCitaUseCase;
 import co.com.sofka.usecase.paciente.crearpaciente.CrearPacienteUseCase;
 import co.com.sofka.usecase.paciente.crearrevison.CrearRevisonUseCase;
 import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.commands.paciente.Revision.CrearRevisionCommand;
 import co.com.sofka.usecase.paciente.listarrevisiones.ListarRevisionesUseCase;
+import co.com.sofka.usecase.paciente.model.CitaModel;
+import co.com.sofka.usecase.paciente.model.PacienteModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -95,6 +101,42 @@ public class RestController {
                                 DomainEvent.class))
         );
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> listarDisponibilidad(ListarDisponibilidadUseCase useCase){
+
+        return route(
+                GET("/listarDisponibilidad").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(),
+                                DisponibilidadModel.class))
+        );
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> cancelarCita(CancelarCitaUseCase useCase){
+
+        return route(
+                DELETE("/cancelarCita/{citaId}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(request.pathVariable("citaId")),
+                                Void.class))
+        );
+    }
+
+    /*@Bean
+    public RouterFunction<ServerResponse> actualizarCorreo(ActualizarCorreoPacienteUseCase useCase){
+
+        return route(
+                PUT("/actualizarCorreo/{pacienteId}/{correo}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(useCase.apply(request.pathVariable("pacienteId"), request.pathVariable("correo")),
+                                PacienteModel.class))
+        );
+    }*/
 
     /*@Bean
     public RouterFunction<ServerResponse> buscarCita(BuscarCitaUseCase useCase){
