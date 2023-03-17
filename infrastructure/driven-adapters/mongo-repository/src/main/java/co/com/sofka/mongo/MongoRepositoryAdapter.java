@@ -6,9 +6,11 @@ import co.com.sofka.mongo.data.StoredEvent;
 import co.com.sofka.serializer.JSONMapper;
 import co.com.sofka.usecase.generic.commands.agenda.DefinirDisponibilidadCommand;
 import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
+import co.com.sofka.usecase.generic.commands.paciente.paciente.CrearPacienteCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 
 import co.com.sofka.usecase.paciente.model.CitaModel;
+import co.com.sofka.usecase.paciente.model.PacienteModel;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -87,6 +89,20 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
 
     }
 
+
+    public Mono<DomainEvent> actualizarCorreo(String pacienteId, String correo){
+
+        var query = new Query(Criteria.where("pacienteId").is(pacienteId));
+        Update update = new Update().set("correo",correo);
+        System.out.println(update);
+        return  template.findAndModify(
+                query,update, FindAndModifyOptions.options().returnNew(true),
+                DomainEvent.class);
+
+
+
+    }
+
     @Override
     public Mono <DisponibilidadModel> CambiarHoraADisponible(String hora, String fecha){
         String h= hora+"-NO DISPONIBLE";
@@ -124,6 +140,12 @@ public class MongoRepositoryAdapter implements DomainEventRepository {
     @Override
     public Mono<CitaModel> guardarCita(AgendarCitaCommand command) {
         CitaModel model = new CitaModel(command);
+        return template.save(model);
+    }
+
+    @Override
+    public Mono<PacienteModel> guardarPaciente(CrearPacienteCommand command){
+        PacienteModel model = new PacienteModel(command);
         return template.save(model);
     }
 
