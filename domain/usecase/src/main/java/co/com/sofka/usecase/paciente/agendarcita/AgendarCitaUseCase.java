@@ -6,7 +6,6 @@ import co.com.sofka.model.agenda.events.DisponibilidadDefinida;
 import co.com.sofka.model.paciente.Paciente;
 import co.com.sofka.model.generic.DomainEvent;
 import co.com.sofka.model.paciente.values.*;
-import co.com.sofka.usecase.agenda.actualizardisponibilidad.ActualizarDisponibilidadUseCase;
 import co.com.sofka.usecase.generic.UseCaseForCommand;
 import co.com.sofka.usecase.generic.commands.paciente.cita.AgendarCitaCommand;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
@@ -17,12 +16,10 @@ import reactor.core.publisher.Mono;
 public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
     private final DomainEventRepository repository;
     private final EventBus bus;
-    private final ActualizarDisponibilidadUseCase useCase;
 
-    public AgendarCitaUseCase(DomainEventRepository repository, EventBus bus, ActualizarDisponibilidadUseCase useCase) {
+    public AgendarCitaUseCase(DomainEventRepository repository, EventBus bus) {
         this.repository = repository;
         this.bus = bus;
-        this.useCase = useCase;
     }
 
     @Override
@@ -47,6 +44,7 @@ public class AgendarCitaUseCase extends UseCaseForCommand<AgendarCitaCommand> {
                                                 new Estado(command.getEstado()));
                                         System.out.println(command.getCorreoPaciente());
                                         //useCase.apply(command.getFecha(),command.getHora());
+                                        repository.guardarCita(command).subscribe();
                                         repository.buscarPorId(command.getAgendaId()).subscribe(
                                                 event2 -> {
                                                     boolean disponibilidadDefinida = event2.type.equals("liliana.gallego.disponibilidaddefinida");
