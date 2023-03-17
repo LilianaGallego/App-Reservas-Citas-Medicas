@@ -1,10 +1,7 @@
 package co.com.sofka.usecase.paciente.cancelarcita;
 
-import co.com.sofka.model.generic.DomainEvent;
-import co.com.sofka.usecase.agenda.actualizardisponibilidad.ActualizarDisponibilidadUseCase;
 import co.com.sofka.usecase.generic.gateways.DomainEventRepository;
 import co.com.sofka.usecase.generic.gateways.EventBus;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class CancelarCitaUseCase {
